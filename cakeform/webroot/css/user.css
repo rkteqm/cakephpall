@@ -1,0 +1,10 @@
+.error-message{
+    color: red;
+}
+.rahul{
+    display: flex;
+    flex-direction: row;
+}
+.rahul label{
+    margin-right: 10px;
+}
