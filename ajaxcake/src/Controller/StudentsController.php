@@ -49,7 +49,50 @@ class StudentsController extends AppController
 
     public function listStudents()
     {
-        $students = $this->Students->find()->toList();
+        if ($this->request->is('ajax')) {
+            $status = $_POST['status'];
+            if ($status == 'empty') {
+                $students = $this->Students->find()->toList();
+                echo json_encode(array(
+                    "students" => $students,
+                ));
+                exit;
+            } else {
+                $students = $this->Students->find('all')->where(['status' => $status])->toList();
+                echo json_encode(array(
+                    "students" => $students,
+                ));
+                exit;
+            }
+        } else {
+            $students = $this->Students->find()->toList();
+        }
+
+        $this->set("title", "List Student");
+        $this->set(compact("students"));
+    }
+
+    public function list($status = null)
+    {
+        if ($this->request->is('ajax')) {
+            $status = $_POST['status'];
+            if ($status == 'empty') {
+                $students = $this->Students->find()->toList();
+                $this->autoRender = false;
+                $this->layout = false;
+                $this->render('element/flash/userlist');
+                exit;
+            } else {
+                $students = $this->Students->find('all')->where(['status' => $status])->toList();
+                $this->autoRender = false;
+                $this->layout = false;
+                $this->render('element/flash/userlist');
+                exit;
+            }
+        } else {
+            $students = $this->Students->find()->toList();
+        }
+
         $this->set("title", "List Student");
         $this->set(compact("students"));
     }
@@ -61,5 +104,26 @@ class StudentsController extends AppController
         ]);
         $this->set(compact('student'));
         $this->set("title", "Edit Student");
+    }
+
+    public function status($id = null, $status = null)
+    {
+        $this->request->allowMethod(['post']);
+        $id = $_POST['id'];
+        $status = $_POST['status'];
+
+        $student = $this->Students->get($id);
+        if ($status == 1) {
+            $student->status = 0;
+        } else {
+            $student->status = 1;
+        }
+        if ($this->Students->save($student)) {
+            echo json_encode(array(
+                "status" => $status,
+                "id" => $id,
+            ));
+            exit;
+        }
     }
 }
