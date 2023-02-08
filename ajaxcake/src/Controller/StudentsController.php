@@ -72,29 +72,26 @@ class StudentsController extends AppController
         $this->set(compact("students"));
     }
 
-    public function list($status = null)
+    public function lists()
     {
-        if ($this->request->is('ajax')) {
-            $status = $_POST['status'];
-            if ($status == 'empty') {
-                $students = $this->Students->find()->toList();
-                $this->autoRender = false;
-                $this->layout = false;
-                $this->render('element/flash/userlist');
-                exit;
-            } else {
-                $students = $this->Students->find('all')->where(['status' => $status])->toList();
-                $this->autoRender = false;
-                $this->layout = false;
-                $this->render('element/flash/userlist');
-                exit;
-            }
+        $students = $this->Students->find('all');
+        $this->set(compact('students'));
+        $status = $this->request->getQuery('status');
+        if ($status == null || $status == 'null') {
+            $students = $this->Students->find('all');
         } else {
-            $students = $this->Students->find()->toList();
+            $students = $this->Students->find('all')->where(['status' => $status]);
         }
-
-        $this->set("title", "List Student");
         $this->set(compact("students"));
+        if ($this->request->is('ajax')) {
+            $this->autoRender = false;
+            //$this->layout = false;
+
+            $this->viewBuilder()->setLayout(null);
+
+
+            $this->render('/element/flash/userlist');
+        }
     }
 
     public function editStudent($id = null)
