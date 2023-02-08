@@ -60,6 +60,7 @@ return static function (RouteBuilder $routes) {
             $builder->connect('/edit-student/:id', ['controller' => 'Students', 'action' => 'editStudent'], ["pass" => ["id"]]);
             $builder->connect('/list-students', ['controller' => 'Students', 'action' => 'listStudents']);
             $builder->connect('/lists', ['controller' => 'Students', 'action' => 'lists']);
+            $builder->connect('/listjquery', ['controller' => 'Students', 'action' => 'listjquery']);
         
             // Ajax Routes
             $builder->connect('/ajax-add-student', ['controller' => 'Ajax', 'action' => 'ajaxAddStudent']);

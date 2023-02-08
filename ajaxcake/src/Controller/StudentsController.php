@@ -94,6 +94,12 @@ class StudentsController extends AppController
         }
     }
 
+    public function listjquery()
+    {
+        $students = $this->Students->find('all');
+        $this->set(compact('students'));
+    }
+
     public function editStudent($id = null)
     {
         $student = $this->Students->get($id, [

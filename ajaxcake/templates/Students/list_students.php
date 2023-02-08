@@ -1,3 +1,4 @@
+<h3>Fetching data using ajax in JSON format</h3>
 <div class="panel panel-primary">
   <div class="panel-heading">
     List Students
@@ -5,7 +6,7 @@
     echo $this->Form->select(
       'status',
       [
-        'empty' => 'All Users', 
+        'empty' => 'All Users',
         '1' => 'Active Users',
         '0' => 'Inactive Users',
       ],
@@ -67,24 +68,6 @@
 
 <script>
   $(document).ready(function() {
-    // $('.test').click(function(e) {
-    //   e.preventDefault();
-    //   var car_id = $(this).next('input').val();
-    //   $.ajax({
-    //     url: "/test",
-    //     type: "JSON",
-    //     method: "POST",
-    //     data: {
-    //       'id': car_id,
-    //       'status': true,
-    //     },
-    //     success: function(response) {
-    //       var data = JSON.parse(response);
-    //       console.log(data);
-    //     }
-    //   });
-    // });
-
     $('.inac').click(function() {
       var status = $(this).val();
       var id = $(this).prev('input').val();
@@ -102,8 +85,7 @@
 
 
 
-    $('#statusai').change(function(e) {
-      e.preventDefault();
+    $('#statusai').change(function() {
       var status = $(this).val();
       $.ajax({
         url: "/list-students",
