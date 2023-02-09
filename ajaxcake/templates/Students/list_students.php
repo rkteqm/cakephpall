@@ -102,7 +102,10 @@
             html += '<td>' + value.id + '</td>';
             html += '<td>' + value.name + '</td>';
             html += '<td>' + value.email + '</td>';
-            html += '<td>' + value.phone_no + '</td></tr>';
+            // html += '<td class="txtcenter"><label class="switch"><input type="hidden" value="' + value.id + '"><input type="checkbox" value="' + value.status + '" ' + (value.status == 1) ? "checked" : "" + ' class="inac"><span class="slider round"></span></label></td></tr>';
+            html += '<td>' + value.phone_no + '</td>';
+            html += '<td>' + value.id + '</td>';
+            html += '<td>' + value.status + '</td>';
             $('.aidata').prepend(html);
           });
         }

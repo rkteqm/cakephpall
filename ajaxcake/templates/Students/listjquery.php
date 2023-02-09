@@ -1,4 +1,4 @@
-<h3>not Fetching data from server only show hide data using jquery</h3>
+<h3>not fetching data from server, only show hide data using jquery</h3>
 <div class="panel panel-primary">
     <div class="panel-heading">
         List Students

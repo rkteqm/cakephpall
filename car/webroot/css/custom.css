@@ -1,0 +1,12 @@
+.signupbimage {
+    background-image: url('/img/illustrations/illustration-signup.jpg');
+    background-size: cover;
+}
+
+.error{
+    color: red;
+}
+
+.success{
+    color: seagreen;
+}

@@ -75,11 +75,11 @@ class StudentsController extends AppController
     public function lists()
     {
         $students = $this->Students->find('all');
-        $this->set(compact('students'));
+        // $this->set(compact('students'));
         $status = $this->request->getQuery('status');
         if ($status == null || $status == 'null') {
             $students = $this->Students->find('all');
-        } else {
+        } elseif ($status == 0 || $status == 1) {
             $students = $this->Students->find('all')->where(['status' => $status]);
         }
         $this->set(compact("students"));
