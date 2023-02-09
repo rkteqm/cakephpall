@@ -26,16 +26,18 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link me-2" href="../pages/sign-up.html">
+                  <!-- <a class="nav-link me-2" href="../pages/sign-up.html">
                     <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
                     Sign Up
-                  </a>
+                  </a> -->
+                  <?= $this->Html->link('<i class="fas fa-user-circle opacity-6 text-dark me-1"></i>' .__('Sign Up'), ['controller' => 'Users', 'action' => 'signup'], ['escape' => false, 'title' => __('Sign Up'), 'class' => 'nav-link me-2']) ?>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link me-2" href="../pages/sign-in.html">
+                  <!-- <a class="nav-link me-2" href="../pages/sign-in.html">
                     <i class="fas fa-key opacity-6 text-dark me-1"></i>
                     Sign In
-                  </a>
+                  </a> -->
+                  <?= $this->Html->link('<i class="fas fa-key opacity-6 text-dark me-1"></i>' .__('Sign In'), ['controller' => 'Users', 'action' => 'signin'], ['escape' => false, 'title' => __('Sign Up'), 'class' => 'nav-link me-2']) ?>
                 </li>
               </ul>
               <ul class="navbar-nav d-lg-flex d-none">

@@ -57,4 +57,28 @@ class UsersController extends AppController
         $this->set(compact('user'));
     }
 
+    public function signin()
+    {
+        // $this->request->allowMethod(['get', 'post']);
+        // $result = $this->Authentication->getResult();
+        // if ($result && $result->isValid()) {
+
+        //     $user = $this->Authentication->getIdentity();
+        //     if ($user->role == 1) {
+        //         $redirect = $this->request->getQuery('redirect', [
+        //             'controller' => 'Users',
+        //             'action' => 'home',
+        //         ]);
+        //     } elseif ($user->role == 0) {
+        //         $redirect = $this->request->getQuery('redirect', [
+        //             'controller' => 'Users',
+        //             'action' => 'index',
+        //         ]);
+        //     }
+        //     return $this->redirect($redirect);
+        // }
+        // if ($this->request->is('post') && !$result->isValid()) {
+        //     $this->Flash->error(__('Invalid username or password'));
+        // }
+    }
 }
