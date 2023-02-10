@@ -1,8 +1,11 @@
 $(document).ready(function () {
 
-    jQuery.validator.addMethod("regex", function (value, element, param) {
-        return value.match(new RegExp("^" + param + "$"));
-    });
+    jQuery.validator.addMethod(
+        "regex",
+        function (value, element, param) {
+            return value.match(new RegExp("^" + param + "$"));
+        }
+    );
     var ALPHA_REGEX = "[a-zA-Z_ ]*";
 
     jQuery.validator.addMethod(
@@ -33,9 +36,12 @@ $(document).ready(function () {
         },
         'Your password must contain at least one digit.'
     );
-    jQuery.validator.addMethod("noSpace", function (value, element) {
-        return value == '' || value.trim().length != 0;
-    }, "No space please and don't leave it empty");
+    jQuery.validator.addMethod(
+        "noSpace",
+        function (value, element) {
+            return value == '' || value.trim().length != 0;
+        },
+        "No space please and don't leave it empty");
 
     $("#regform").validate({
         rules: {
@@ -57,6 +63,9 @@ $(document).ready(function () {
                 Onedigit: true,
                 maxlength: 18,
                 minlength: 8,
+            },
+            checkbox: {
+                required: true,
             }
         },
         messages: {
@@ -72,6 +81,9 @@ $(document).ready(function () {
                 required: "Please enter your password",
                 minlength: "Password need to be at least 8 characters long",
                 maxlength: "Password need to be atleast  18 characters long",
+            },
+            checkbox: {
+                required: "Please except our terms conditions"
             }
         },
         submitHandler: function (form) {
@@ -79,109 +91,144 @@ $(document).ready(function () {
         }
     });
 
-
-
-    $("#carformedit").validate({
+    $('form').validate({
         rules: {
-            company: {
+            email: {
                 required: true,
-                minlength: 2,
+                email: true
             },
-            description: {
+            password: {
                 required: true,
-                minlength: 10,
-            },
+                Uppercase: true,
+                Lowercase: true,
+                Specialcharacter: true,
+                Onedigit: true,
+                maxlength: 18,
+                minlength: 8,
+            }
         },
         messages: {
-            company: {
-                required: " Please enter your car company name",
-                minlength: "Company name need to be at least 2 characters long",
+            email: {
+                required: " Please enter your email",
             },
-            description: {
-                required: "Please enter your car description",
-                minlength: "Description need to be at least 10 characters long",
-            },
+            password: {
+                required: "Please enter your password",
+                minlength: "Password need to be at least 8 characters long",
+                maxlength: "Password need to be atleast  18 characters long",
+            }
         },
         submitHandler: function (form) {
             form.submit();
         }
     });
 
-
-
-    $("#rateform").validate({
-        rules: {
-            review: {
-                required: true,
-                noSpace: true
-            },
-        },
-        messages: {
-            review: {
-                required: " Please enter your review",
-            },
-        },
-        submitHandler: function (form) {
-            form.submit();
-        }
+    $('.nav-link').click(function () {
+        // e.preventDefault();
+        $('.nav-link').removeClass('active bg-gradient-primary');
+        $(this).addClass('active bg-gradient-primary');
     });
 
+    // $("#carformedit").validate({
+    //     rules: {
+    //         company: {
+    //             required: true,
+    //             minlength: 2,
+    //         },
+    //         description: {
+    //             required: true,
+    //             minlength: 10,
+    //         },
+    //     },
+    //     messages: {
+    //         company: {
+    //             required: " Please enter your car company name",
+    //             minlength: "Company name need to be at least 2 characters long",
+    //         },
+    //         description: {
+    //             required: "Please enter your car description",
+    //             minlength: "Description need to be at least 10 characters long",
+    //         },
+    //     },
+    //     submitHandler: function (form) {
+    //         form.submit();
+    //     }
+    // });
 
 
-    $("#carform").validate({
-        rules: {
-            image: {
-                required: true,
-            },
-            brand: {
-                required: true,
-            },
-            model: {
-                required: true,
-            },
-            make: {
-                required: true,
-            },
-            color: {
-                required: true,
-            },
-            company: {
-                required: true,
-                minlength: 2,
-                noSpace: true
-            },
-            description: {
-                required: true,
-                minlength: 10,
-            },
-        },
-        messages: {
-            image: {
-                required: " Please select your car image",
-            },
-            brand: {
-                required: " Please select your car brand",
-            },
-            model: {
-                required: " Please select your car model",
-            },
-            make: {
-                required: " Please select your car make year",
-            },
-            color: {
-                required: " Please select your car color",
-            },
-            company: {
-                required: " Please enter your car company name",
-                minlength: "Company name need to be at least 2 characters long",
-            },
-            description: {
-                required: "Please enter your car description",
-                minlength: "Description need to be at least 10 characters long",
-            },
-        },
-        submitHandler: function (form) {
-            form.submit();
-        }
-    });
+
+    // $("#rateform").validate({
+    //     rules: {
+    //         review: {
+    //             required: true,
+    //             noSpace: true
+    //         },
+    //     },
+    //     messages: {
+    //         review: {
+    //             required: " Please enter your review",
+    //         },
+    //     },
+    //     submitHandler: function (form) {
+    //         form.submit();
+    //     }
+    // });
+
+
+
+    // $("#carform").validate({
+    //     rules: {
+    //         image: {
+    //             required: true,
+    //         },
+    //         brand: {
+    //             required: true,
+    //         },
+    //         model: {
+    //             required: true,
+    //         },
+    //         make: {
+    //             required: true,
+    //         },
+    //         color: {
+    //             required: true,
+    //         },
+    //         company: {
+    //             required: true,
+    //             minlength: 2,
+    //             noSpace: true
+    //         },
+    //         description: {
+    //             required: true,
+    //             minlength: 10,
+    //         },
+    //     },
+    //     messages: {
+    //         image: {
+    //             required: " Please select your car image",
+    //         },
+    //         brand: {
+    //             required: " Please select your car brand",
+    //         },
+    //         model: {
+    //             required: " Please select your car model",
+    //         },
+    //         make: {
+    //             required: " Please select your car make year",
+    //         },
+    //         color: {
+    //             required: " Please select your car color",
+    //         },
+    //         company: {
+    //             required: " Please enter your car company name",
+    //             minlength: "Company name need to be at least 2 characters long",
+    //         },
+    //         description: {
+    //             required: "Please enter your car description",
+    //             minlength: "Description need to be at least 10 characters long",
+    //         },
+    //     },
+    //     submitHandler: function (form) {
+    //         form.submit();
+    //     }
+    // });
 });
