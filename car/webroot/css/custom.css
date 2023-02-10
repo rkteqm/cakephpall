@@ -8,7 +8,8 @@
     background-size: cover;
 }
 
-.error, .error-message {
+.error,
+.error-message {
     color: red;
 }
 

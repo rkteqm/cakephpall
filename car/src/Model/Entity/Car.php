@@ -39,7 +39,7 @@ class Car extends Entity
         'color' => true,
         'description' => true,
         'image' => true,
-        'active' => true,
+        'status' => true,
         'ratings' => true,
     ];
 }

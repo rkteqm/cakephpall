@@ -17,7 +17,10 @@
                     <?= $this->Html->link('<div class="text-white text-center me-2 d-flex align-items-center justify-content-center"><i class="material-icons opacity-10">table_view</i></div><span class="nav-link-text ms-1">Tables</span>' . __(''), ['controller' => 'Admin', 'action' => 'tables'], ['escape' => false, 'title' => __('Tables'), 'class' => 'nav-link text-white']) ?>
                 </li>
                 <li class="nav-item">
-                    <?= $this->Html->link('<div class="text-white text-center me-2 d-flex align-items-center justify-content-center"><i class="fa-solid fa-upload opacity-10"></i></div><span class="nav-link-text ms-1">Add Car</span>' . __(''), ['controller' => 'Admin', 'action' => 'addcar'], ['escape' => false, 'title' => __('Add Car'), 'class' => 'nav-link text-white active bg-gradient-primary']) ?>
+                    <?= $this->Html->link('<div class="text-white text-center me-2 d-flex align-items-center justify-content-center"><i class="fa-solid fa-pen-to-square opacity-10"></i></div><span class="nav-link-text ms-1">Edit Car</span>' . __(''), ['controller' => 'Admin', 'action' => 'editcar', $car->id], ['escape' => false, 'title' => __('Edit Car'), 'class' => 'nav-link text-white active bg-gradient-primary']) ?>
+                </li>
+                <li class="nav-item">
+                    <?= $this->Html->link('<div class="text-white text-center me-2 d-flex align-items-center justify-content-center"><i class="fa-solid fa-upload opacity-10"></i></div><span class="nav-link-text ms-1">Add Car</span>' . __(''), ['controller' => 'Admin', 'action' => 'addcar'], ['escape' => false, 'title' => __('Add Car'), 'class' => 'nav-link text-white']) ?>
                 </li>
                 <li class="nav-item mt-3">
                     <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
@@ -158,11 +161,6 @@
                 <div class="page-header min-vh-100">
                     <div class="container">
                         <div class="row">
-                            <!-- <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 start-0 text-center justify-content-center flex-column">
-                                <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center signupbimage">
-                                </div>
-                            </div> -->
-                            <!-- <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 start-0 text-center justify-content-center flex-column"> -->
                             <div class="card card-plain w-70">
                                 <div class="card-header bg-transparent">
                                     <?= $this->Flash->render() ?>
@@ -170,12 +168,19 @@
                                     <p class="mb-0">Enter your car details</p>
                                 </div>
                                 <div class="card-body">
-                                    <?= $this->Form->create($car, ["enctype" => "multipart/form-data", 'id' => 'carform']) ?>
+                                    <?= $this->Form->create($car, ["enctype" => "multipart/form-data", 'id' => 'carformedit']) ?>
                                     <fieldset>
                                         <?= $this->Form->error('image') ?>
                                         <label id="image-error" class="error" for="image"></label>
                                         <div class="input-group input-group-outline mb-3">
-                                            <?= $this->Form->input('image', ['required' => false, 'type' => 'file', 'class' => 'form-control']) ?>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <?= $this->Form->input('image', ['required' => false, 'type' => 'file', 'class' => 'form-control']) ?>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <?= $this->Html->image(h($car->image), array('width' => '250px')) ?>
+                                                </div>
+                                            </div>
                                         </div>
                                         <?= $this->Form->error('company') ?>
                                         <label id="company-error" class="error" for="company"></label>
@@ -193,7 +198,7 @@
                                                     $brands[2] => $brands[2],
                                                     $brands[3] => $brands[3],
                                                 ],
-                                                ['empty' => 'Select car brand', 'class' => 'form-control']
+                                                ['class' => 'form-control']
                                             ) ?>
                                         </div>
                                         <?= $this->Form->error('model') ?>
@@ -205,7 +210,7 @@
                                                     '4x4' => '4x4',
                                                     '4x2' => '4x2',
                                                 ],
-                                                ['empty' => 'Select car model', 'class' => 'form-control']
+                                                ['class' => 'form-control']
                                             ) ?>
                                         </div>
                                         <?= $this->Form->error('make') ?>
@@ -223,7 +228,7 @@
                                                     '2022' => '2022',
                                                     '2023' => '2023',
                                                 ],
-                                                ['empty' => 'Select make year', 'class' => 'form-control']
+                                                ['class' => 'form-control']
                                             ) ?>
                                         </div>
                                         <?= $this->Form->error('color') ?>
@@ -236,13 +241,12 @@
                                                     'Black' => 'Black',
                                                     'White' => 'White',
                                                 ],
-                                                ['empty' => 'Select car color', 'class' => 'form-control']
+                                                ['class' => 'form-control']
                                             ) ?>
                                         </div>
                                         <?= $this->Form->error('description') ?>
                                         <label id="description-error" class="error" for="description"></label>
                                         <div class="input-group input-group-outline mb-3">
-                                            <!-- <label class="form-label">Description</label> -->
                                             <?= $this->Form->textarea('description', ['required' => false, 'type' => 'textarea', 'class' => 'form-control', 'placeholder' => 'Description']) ?>
                                         </div>
                                     </fieldset>
@@ -252,7 +256,6 @@
                                     <?= $this->Form->end() ?>
                                 </div>
                             </div>
-                            <!-- </div> -->
                         </div>
                     </div>
                 </div>

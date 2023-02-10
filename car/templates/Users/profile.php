@@ -164,7 +164,7 @@
                                 <?= $user->name ?>
                             </h5>
                             <p class="mb-0 font-weight-normal text-sm">
-                                CEO / Co-Founder
+                                USER / Co-Founder
                             </p>
                         </div>
                     </div>

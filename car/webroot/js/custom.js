@@ -91,6 +91,116 @@ $(document).ready(function () {
         }
     });
 
+    $('.nav-link').click(function () {
+        // e.preventDefault();
+        $('.nav-link').removeClass('active bg-gradient-primary');
+        $(this).addClass('active bg-gradient-primary');
+    });
+
+    $("#carformedit").validate({
+        rules: {
+            company: {
+                required: true,
+                minlength: 2,
+            },
+            description: {
+                required: true,
+                minlength: 10,
+            },
+        },
+        messages: {
+            company: {
+                required: " Please enter your car company name",
+                minlength: "Company name need to be at least 2 characters long",
+            },
+            description: {
+                required: "Please enter your car description",
+                minlength: "Description need to be at least 10 characters long",
+            },
+        },
+        submitHandler: function (form) {
+            form.submit();
+        }
+    });
+
+
+
+
+    // $("#rateform").validate({
+    //     rules: {
+    //         review: {
+    //             required: true,
+    //             noSpace: true
+    //         },
+    //     },
+    //     messages: {
+    //         review: {
+    //             required: " Please enter your review",
+    //         },
+    //     },
+    //     submitHandler: function (form) {
+    //         form.submit();
+    //     }
+    // });
+
+
+    $("#carform").validate({
+        rules: {
+            image: {
+                required: true,
+            },
+            brand: {
+                required: true,
+            },
+            model: {
+                required: true,
+            },
+            make: {
+                required: true,
+            },
+            color: {
+                required: true,
+            },
+            company: {
+                required: true,
+                minlength: 2,
+                noSpace: true
+            },
+            description: {
+                required: true,
+                minlength: 10,
+            },
+        },
+        messages: {
+            image: {
+                required: " Please select your car image",
+            },
+            brand: {
+                required: " Please select your car brand",
+            },
+            model: {
+                required: " Please select your car model",
+            },
+            make: {
+                required: " Please select your car make year",
+            },
+            color: {
+                required: " Please select your car color",
+            },
+            company: {
+                required: " Please enter your car company name",
+                minlength: "Company name need to be at least 2 characters long",
+            },
+            description: {
+                required: "Please enter your car description",
+                minlength: "Description need to be at least 10 characters long",
+            },
+        },
+        submitHandler: function (form) {
+            form.submit();
+        }
+    });
+
     $('form').validate({
         rules: {
             email: {
@@ -122,113 +232,33 @@ $(document).ready(function () {
         }
     });
 
-    $('.nav-link').click(function () {
-        // e.preventDefault();
-        $('.nav-link').removeClass('active bg-gradient-primary');
-        $(this).addClass('active bg-gradient-primary');
+    // $('.badge-sm').click(function(){
+    //     alert('hello');
+    // })
+    $('body').on('click', '.badge-sm', function () {
+        var id = $(this).prev('input').val();
+        var status = $(this).next('input').val();
+        if (status == 1) {
+            $(this).html('Inactive')
+            $(this).removeClass('bg-gradient-success')
+            $(this).addClass('bg-gradient-secondary')
+            $(this).next('input').val('0');
+        } else {
+            $(this).html('Active')
+            $(this).removeClass('bg-gradient-secondary')
+            $(this).addClass('bg-gradient-success')
+            $(this).next('input').val('1');
+        }
+        $.ajax({
+            url: "/admin/status",
+            type: "JSON",
+            method: "GET",
+            data: {
+                'id': id,
+                'status': status,
+            },
+            success: function (response) { }
+        });
     });
 
-    // $("#carformedit").validate({
-    //     rules: {
-    //         company: {
-    //             required: true,
-    //             minlength: 2,
-    //         },
-    //         description: {
-    //             required: true,
-    //             minlength: 10,
-    //         },
-    //     },
-    //     messages: {
-    //         company: {
-    //             required: " Please enter your car company name",
-    //             minlength: "Company name need to be at least 2 characters long",
-    //         },
-    //         description: {
-    //             required: "Please enter your car description",
-    //             minlength: "Description need to be at least 10 characters long",
-    //         },
-    //     },
-    //     submitHandler: function (form) {
-    //         form.submit();
-    //     }
-    // });
-
-
-
-    // $("#rateform").validate({
-    //     rules: {
-    //         review: {
-    //             required: true,
-    //             noSpace: true
-    //         },
-    //     },
-    //     messages: {
-    //         review: {
-    //             required: " Please enter your review",
-    //         },
-    //     },
-    //     submitHandler: function (form) {
-    //         form.submit();
-    //     }
-    // });
-
-
-
-    // $("#carform").validate({
-    //     rules: {
-    //         image: {
-    //             required: true,
-    //         },
-    //         brand: {
-    //             required: true,
-    //         },
-    //         model: {
-    //             required: true,
-    //         },
-    //         make: {
-    //             required: true,
-    //         },
-    //         color: {
-    //             required: true,
-    //         },
-    //         company: {
-    //             required: true,
-    //             minlength: 2,
-    //             noSpace: true
-    //         },
-    //         description: {
-    //             required: true,
-    //             minlength: 10,
-    //         },
-    //     },
-    //     messages: {
-    //         image: {
-    //             required: " Please select your car image",
-    //         },
-    //         brand: {
-    //             required: " Please select your car brand",
-    //         },
-    //         model: {
-    //             required: " Please select your car model",
-    //         },
-    //         make: {
-    //             required: " Please select your car make year",
-    //         },
-    //         color: {
-    //             required: " Please select your car color",
-    //         },
-    //         company: {
-    //             required: " Please enter your car company name",
-    //             minlength: "Company name need to be at least 2 characters long",
-    //         },
-    //         description: {
-    //             required: "Please enter your car description",
-    //             minlength: "Description need to be at least 10 characters long",
-    //         },
-    //     },
-    //     submitHandler: function (form) {
-    //         form.submit();
-    //     }
-    // });
 });

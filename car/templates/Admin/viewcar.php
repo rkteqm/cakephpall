@@ -1,4 +1,4 @@
-<body class="g-sidenav-show  bg-gray-200">
+<body class="g-sidenav-show bg-gray-200">
     <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
         <div class="sidenav-header">
             <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
@@ -14,7 +14,10 @@
                     <?= $this->Html->link('<div class="text-white text-center me-2 d-flex align-items-center justify-content-center"><i class="material-icons opacity-10">dashboard</i></div><span class="nav-link-text ms-1">Dashboard</span>' . __(''), ['controller' => 'Admin', 'action' => 'dashboard'], ['escape' => false, 'title' => __('Dashboard'), 'class' => 'nav-link text-white']) ?>
                 </li>
                 <li class="nav-item">
-                    <?= $this->Html->link('<div class="text-white text-center me-2 d-flex align-items-center justify-content-center"><i class="material-icons opacity-10">table_view</i></div><span class="nav-link-text ms-1">Tables</span>' . __(''), ['controller' => 'Admin', 'action' => 'tables'], ['escape' => false, 'title' => __('Tables'), 'class' => 'nav-link text-white active bg-gradient-primary']) ?>
+                    <?= $this->Html->link('<div class="text-white text-center me-2 d-flex align-items-center justify-content-center"><i class="material-icons opacity-10">table_view</i></div><span class="nav-link-text ms-1">Tables</span>' . __(''), ['controller' => 'Admin', 'action' => 'tables'], ['escape' => false, 'title' => __('Tables'), 'class' => 'nav-link text-white']) ?>
+                </li>
+                <li class="nav-item">
+                    <?= $this->Html->link('<div class="text-white text-center me-2 d-flex align-items-center justify-content-center"><i class="fa-solid fa-pen-to-square opacity-10"></i></div><span class="nav-link-text ms-1">View User</span>' . __(''), ['controller' => 'Admin', 'action' => 'viewcar', $car->id], ['escape' => false, 'title' => __('View User'), 'class' => 'nav-link text-white active bg-gradient-primary']) ?>
                 </li>
                 <li class="nav-item">
                     <?= $this->Html->link('<div class="text-white text-center me-2 d-flex align-items-center justify-content-center"><i class="fa-solid fa-upload opacity-10"></i></div><span class="nav-link-text ms-1">Add Car</span>' . __(''), ['controller' => 'Admin', 'action' => 'addcar'], ['escape' => false, 'title' => __('Add Car'), 'class' => 'nav-link text-white']) ?>
@@ -36,16 +39,16 @@
             </div>
         </div>
     </aside>
-    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <div class="main-content position-relative max-height-vh-100 h-100">
         <!-- Navbar -->
         <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
             <div class="container-fluid py-1 px-3">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                         <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
-                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Tables</li>
+                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Profile</li>
                     </ol>
-                    <h6 class="font-weight-bolder mb-0">Tables</h6>
+                    <h6 class="font-weight-bolder mb-0">Profile</h6>
                 </nav>
                 <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -153,179 +156,92 @@
             </div>
         </nav>
         <!-- End Navbar -->
-        <div class="container-fluid py-4">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card my-4">
-                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white text-capitalize ps-3">Users table</h6>
-                            </div>
+        <div class="container-fluid px-2 px-md-4">
+            <div class="page-header min-height-500 border-radius-xl mt-4 carbimage" style="background-image: url('/img/<?= $car->image ?>'); background-size: cover;">
+                <span class="mask  bg-gradient-primary  opacity-6"></span>
+            </div>
+            <div class="card card-body mx-3 mx-md-4 mt-n6">
+                <div class="row gx-4 mb-2">
+                    <div class="col-auto my-auto">
+                        <div class="h-100">
+                            <h5 class="mb-1">
+                                <?= $car->company ?>
+                            </h5>
+                            <p class="mb-0 font-weight-normal text-sm">
+                                <?= $car->brand ?>
+                            </p>
                         </div>
-                        <div class="card-body px-0 pb-2">
-                            <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Email</th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Created At</th>
-                                            <th class="text-secondary opacity-7"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        if (!empty($users)) {
-                                            foreach ($users as $user) {
-                                        ?>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex px-2 py-1">
-                                                            <div class="d-flex flex-column justify-content-center">
-                                                                <h6 class="mb-0 text-sm"><?= $user->name ?></h6>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <p class="text-xs font-weight-bold mb-0"><?= $user->email ?></p>
-                                                    </td>
-                                                    <td class="align-middle text-center">
-                                                        <span class="text-secondary text-xs font-weight-bold"><?= $user->created_at ?></span>
-                                                    </td>
-                                                    <td class="align-middle">
-                                                        <?= $this->Html->link(__('Edit'), ['action' => 'edituser', $user->id], ['class' => 'text-secondary font-weight-bold text-xs']) ?>
-                                                    </td>
-                                                </tr>
-                                        <?php
-                                            }
-                                        }
-                                        ?>
-                                    </tbody>
-                                </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="row">
+                        <div class="col-12 col-xl-4">
+                            <div class="card card-plain h-100">
+                                <div class="card-header pb-0 p-3">
+                                    <div class="row">
+                                        <div class="col-md-8 d-flex align-items-center">
+                                            <h6 class="mb-0">Car Information</h6>
+                                        </div>
+                                        <div class="col-md-4 text-end">
+                                            <a href="javascript:;">
+                                                <?= $this->Html->link(__(''), ['action' => 'editcar', $car->id], ['class' => 'fas fa-user-edit text-secondary text-sm']) ?>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body p-3">
+                                    <p class="text-sm">
+                                        <?= $car->description ?>
+                                        Hi, I’m Alec Thompson, Decisions: If you can’t decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality).
+                                    </p>
+                                    <hr class="horizontal gray-light my-4">
+                                    <ul class="list-group">
+                                        <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Company:</strong> &nbsp; <?= $car->company ?></li>
+                                        <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Brand:</strong> &nbsp; <?= $car->brand ?></li>
+                                        <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Model:</strong> &nbsp; <?= $car->model ?></li>
+                                        <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Make:</strong> &nbsp; <?= $car->make ?></li>
+                                        <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Color:</strong> &nbsp; <?= $car->color ?></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="card my-4">
-                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white text-capitalize ps-3">Cars table</h6>
-                            </div>
-                        </div>
-                        <div class="card-body px-0 pb-2">
-                            <div class="table-responsive p-0">
-                                <table class="table align-items-center justify-content-center mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Car Company</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Variant</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Make</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Color</th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Rating</th>
-                                            <th></th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        if (!empty($cars)) {
-                                            foreach ($cars as $car) {
-                                        ?>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex px-2 py-1">
-                                                            <div>
-                                                                <?= $this->Html->image(h($car->image), ['class' => 'class="avatar avatar-sm me-3 border-radius-lg', 'alt' => "user1"]) ?>
-                                                            </div>
-                                                            <div class="d-flex flex-column justify-content-center">
-                                                                <h6 class="mb-0 text-sm"><?= $car->brand ?></h6>
-                                                                <p class="text-xs text-secondary mb-0"><?= $car->company ?></p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <p class="text-xs font-weight-bold mb-0"><?= $car->model ?></p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="text-sm font-weight-bold mb-0"><?= $car->make ?></p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="text-sm font-weight-bold mb-0"><?= $car->color ?></p>
-                                                    </td>
-                                                    <td class="align-middle text-center text-sm">
-                                                        <input type="hidden" value="<?= $car->id ?>">
-                                                        <?php if ($car->status == 1) { ?>
-                                                            <span class="badge badge-sm bg-gradient-success">Active</span>
-                                                        <?php } else { ?>
-                                                            <span class="badge badge-sm bg-gradient-secondary">Inactive</span>
-                                                        <?php } ?>
-                                                        <input type="hidden" value="<?= $car->status ?>">
-                                                    </td>
-                                                    <td class="align-middle text-center">
-                                                        <div class="d-flex align-items-center justify-content-center">
-                                                            <span class="me-2 text-xs font-weight-bold">60%</span>
-                                                            <div>
-                                                                <div class="progress">
-                                                                    <div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="align-middle">
-                                                        <?= $this->Html->link(__('View'), ['action' => 'viewcar', $car->id], ['class' => 'text-secondary font-weight-bold text-xs']) ?>
-                                                        <?= $this->Html->link(__('Edit'), ['action' => 'editcar', $car->id], ['class' => 'text-secondary font-weight-bold text-xs']) ?>
-                                                        <?= $this->Form->postLink(__('Delete'), ['action' => 'deletecar', $car->id], ['class' => 'text-secondary font-weight-bold text-xs', 'confirm' => __('Are you sure you want to delete # {0}?', $car->id)]) ?>
-                                                    </td>
-                                                </tr>
-                                        <?php
-                                            }
-                                        }
-                                        ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <footer class="footer py-4  ">
-                <div class="container-fluid">
-                    <div class="row align-items-center justify-content-lg-between">
-                        <div class="col-lg-6 mb-lg-0 mb-4">
-                            <div class="copyright text-center text-sm text-muted text-lg-start">
-                                © <script>
-                                    document.write(new Date().getFullYear())
-                                </script>,
-                                made with <i class="fa fa-heart"></i> by
-                                <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>
-                                for a better web.
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-                                <li class="nav-item">
-                                    <a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Creative Tim</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted" target="_blank">About Us</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="https://www.creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted" target="_blank">License</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </footer>
         </div>
-    </main>
+        <footer class="footer py-4  ">
+            <div class="container-fluid">
+                <div class="row align-items-center justify-content-lg-between">
+                    <div class="col-lg-6 mb-lg-0 mb-4">
+                        <div class="copyright text-center text-sm text-muted text-lg-start">
+                            © <script>
+                                document.write(new Date().getFullYear())
+                            </script>,
+                            made with <i class="fa fa-heart"></i> by
+                            <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>
+                            for a better web.
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+                            <li class="nav-item">
+                                <a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Creative Tim</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted" target="_blank">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://www.creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted" target="_blank">License</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
     <div class="fixed-plugin">
         <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
             <i class="material-icons py-2">settings</i>
