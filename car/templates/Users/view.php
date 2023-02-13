@@ -1,9 +1,13 @@
 <body class="g-sidenav-show bg-gray-200">
+    <?php echo $this->Html->meta('csrfToken', $this->request->getAttribute('csrfToken')); ?>
+    <script>
+        var csrfToken = $('meta[name="csrfToken"]').attr('content');
+    </script>
     <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
         <div class="sidenav-header">
             <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
             <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard " target="_blank">
-                <img src="../assets/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo">
+                <img src="/assets/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo">
                 <span class="ms-1 font-weight-bold text-white">Material Dashboard 2</span>
             </a>
         </div>
@@ -11,26 +15,29 @@
         <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <?= $this->Html->link('<div class="text-white text-center me-2 d-flex align-items-center justify-content-center"><i class="material-icons opacity-10">dashboard</i></div><span class="nav-link-text ms-1">Dashboard</span>' . __(''), ['controller' => 'Admin', 'action' => 'dashboard'], ['escape' => false, 'title' => __('Dashboard'), 'class' => 'nav-link text-white']) ?>
+                    <?= $this->Html->link('<div class="text-white text-center me-2 d-flex align-items-center justify-content-center"><i class="material-icons opacity-10">dashboard</i></div><span class="nav-link-text ms-1">Dashboard</span>' . __(''), ['controller' => 'Users', 'action' => 'home'], ['escape' => false, 'title' => __('Dashboard'), 'class' => 'nav-link text-white']) ?>
                 </li>
                 <li class="nav-item">
-                    <?= $this->Html->link('<div class="text-white text-center me-2 d-flex align-items-center justify-content-center"><i class="material-icons opacity-10">table_view</i></div><span class="nav-link-text ms-1">Tables</span>' . __(''), ['controller' => 'Admin', 'action' => 'tables'], ['escape' => false, 'title' => __('Tables'), 'class' => 'nav-link text-white']) ?>
-                </li>
-                <li class="nav-item">
-                    <?= $this->Html->link('<div class="text-white text-center me-2 d-flex align-items-center justify-content-center"><i class="fa-solid fa-pen-to-square opacity-10"></i></div><span class="nav-link-text ms-1">View Car</span>' . __(''), ['controller' => 'Admin', 'action' => 'viewcar', $car->id], ['escape' => false, 'title' => __('View Car'), 'class' => 'nav-link text-white active bg-gradient-primary']) ?>
-                </li>
-                <li class="nav-item">
-                    <?= $this->Html->link('<div class="text-white text-center me-2 d-flex align-items-center justify-content-center"><i class="fa-solid fa-upload opacity-10"></i></div><span class="nav-link-text ms-1">Add Car</span>' . __(''), ['controller' => 'Admin', 'action' => 'addcar'], ['escape' => false, 'title' => __('Add Car'), 'class' => 'nav-link text-white']) ?>
+                    <?= $this->Html->link('<div class="text-white text-center me-2 d-flex align-items-center justify-content-center"><i class="fa-solid fa-pen-to-square opacity-10"></i></div><span class="nav-link-text ms-1">View Car</span>' . __(''), ['controller' => 'Users', 'action' => 'view', $car->id], ['escape' => false, 'title' => __('View Car'), 'class' => 'nav-link text-white active bg-gradient-primary']) ?>
                 </li>
                 <li class="nav-item mt-3">
                     <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
                 </li>
-                <li class="nav-item">
-                    <?= $this->Html->link('<div class="text-white text-center me-2 d-flex align-items-center justify-content-center"><i class="material-icons opacity-10">person</i></div><span class="nav-link-text ms-1">Profile</span>' . __(''), ['controller' => 'Admin', 'action' => 'profile'], ['escape' => false, 'title' => __('Profile'), 'class' => 'nav-link text-white']) ?>
-                </li>
-                <li class="nav-item">
-                    <?= $this->Html->link('<div class="text-white text-center me-2 d-flex align-items-center justify-content-center"><i class="fa-solid fa-right-from-bracket"></i></div><span class="nav-link-text ms-1">Log Out</span>' . __(''), ['controller' => 'Admin', 'action' => 'logout'], ['escape' => false, 'title' => __('Log Out'), 'class' => 'nav-link text-white']) ?>
-                </li>
+                <?php if ($auth == true) { ?>
+                    <li class="nav-item">
+                        <?= $this->Html->link('<div class="text-white text-center me-2 d-flex align-items-center justify-content-center"><i class="material-icons opacity-10">person</i></div><span class="nav-link-text ms-1">Profile</span>' . __(''), ['controller' => 'Users', 'action' => 'profile'], ['escape' => false, 'title' => __('Profile'), 'class' => 'nav-link text-white']) ?>
+                    </li>
+                    <li class="nav-item">
+                        <?= $this->Html->link('<div class="text-white text-center me-2 d-flex align-items-center justify-content-center"><i class="fa-solid fa-right-from-bracket"></i></div><span class="nav-link-text ms-1">Log Out</span>' . __(''), ['controller' => 'Users', 'action' => 'logout'], ['escape' => false, 'title' => __('Log Out'), 'class' => 'nav-link text-white']) ?>
+                    </li>
+                <?php } else { ?>
+                    <li class="nav-item">
+                        <?= $this->Html->link('<div class="text-white text-center me-2 d-flex align-items-center justify-content-center"><i class="material-icons opacity-10">login</i></div><span class="nav-link-text ms-1">Sign In</span>' . __(''), ['controller' => 'Users', 'action' => 'signin'], ['escape' => false, 'title' => __('Sign In'), 'class' => 'nav-link text-white']) ?>
+                    </li>
+                    <li class="nav-item">
+                        <?= $this->Html->link('<div class="text-white text-center me-2 d-flex align-items-center justify-content-center"><i class="material-icons opacity-10">assignment</i></div><span class="nav-link-text ms-1">Sign Up</span>' . __(''), ['controller' => 'Users', 'action' => 'signup'], ['escape' => false, 'title' => __('Sign Up'), 'class' => 'nav-link text-white']) ?>
+                    </li>
+                <?php } ?>
             </ul>
         </div>
         <div class="sidenav-footer position-absolute w-100 bottom-0 ">
@@ -46,9 +53,10 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                         <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
-                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Profile</li>
+                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dashboard</li>
+                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">View Car</li>
                     </ol>
-                    <h6 class="font-weight-bolder mb-0">Profile</h6>
+                    <h6 class="font-weight-bolder mb-0">View Car</h6>
                 </nav>
                 <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -62,7 +70,11 @@
                             <a class="btn btn-outline-primary btn-sm mb-0 me-3" target="_blank" href="https://www.creative-tim.com/builder/material?ref=navbar-dashboard">Online Builder</a>
                         </li>
                         <li class="nav-item d-flex align-items-center">
-                            <?= $this->Html->link('<i class="fa-solid fa-right-from-bracket"></i><span class="d-sm-inline d-none">Log Out</span>' . __(''), ['controller' => 'Admin', 'action' => 'logout'], ['escape' => false, 'title' => __('Log Out'), 'class' => 'nav-link text-body font-weight-bold px-0']) ?>
+                            <?php if ($auth == true) { ?>
+                                <?= $this->Html->link('<i class="fa-solid fa-right-from-bracket"></i><span class="d-sm-inline d-none">Log Out</span>' . __(''), ['controller' => 'Users', 'action' => 'logout'], ['escape' => false, 'title' => __('Log Out'), 'class' => 'nav-link text-body font-weight-bold px-0']) ?>
+                            <?php } else { ?>
+                                <?= $this->Html->link('<i class="fa fa-user me-sm-1"></i>' . __('Sign In'), ['controller' => 'Users', 'action' => 'signin'], ['escape' => false, 'title' => __('Sign In'), 'class' => 'nav-link me-2']) ?>
+                            <?php } ?>
                         </li>
                         <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
                             <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
@@ -182,11 +194,6 @@
                                         <div class="col-md-8 d-flex align-items-center">
                                             <h6 class="mb-0">Car Information</h6>
                                         </div>
-                                        <div class="col-md-4 text-end">
-                                            <a href="javascript:;">
-                                                <?= $this->Html->link(__(''), ['action' => 'editcar', $car->id], ['class' => 'fas fa-user-edit text-secondary text-sm']) ?>
-                                            </a>
-                                        </div>
                                     </div>
                                 </div>
                                 <div class="card-body p-3">
@@ -201,6 +208,89 @@
                                         <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Model:</strong> &nbsp; <?= $car->model ?></li>
                                         <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Make:</strong> &nbsp; <?= $car->make ?></li>
                                         <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Color:</strong> &nbsp; <?= $car->color ?></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-4">
+                            <div class="card card-plain h-100">
+                                <div class="card-header pb-0 p-3">
+                                    <h6 class="mb-0">Comments</h6>
+                                </div>
+                                <div class="col-md-4 text-end">
+                                    <?php if ($auth) { ?>
+                                        <a href="javascript:;" class="commentbtn btn btn-link pe-3 ps-0 mb-0 ms-auto w-25 w-md-auto">
+                                            <span class="">Post your review. . .</span>
+                                            <span class="fas fa-user-edit text-secondary text-sm"></span>
+                                            <input type="hidden" class="carid" value="<?= $car->id ?>">
+                                            <input type="hidden" class="userid" value="<?= $user->id ?>">
+                                            <input type="hidden" class="username" value="<?= $user->name ?>">
+                                        </a>
+                                    <?php } else { ?>
+                                        <a href="javascript:;" class="commentbtnlogin btn btn-link pe-3 ps-0 mb-0 ms-auto w-25 w-md-auto">
+                                            <span class="">Post your review. . .</span>
+                                            <i class="fas fa-user-edit text-secondary text-sm"></i>
+                                        </a>
+                                    <?php } ?>
+                                    <div id="" class="commentshow ratings form content">
+                                        <span class="ratestars">Rating
+                                            <li class="star fa-solid fa-star" value="1"></li>
+                                            <li class="star fa-regular fa-star" value="2"></li>
+                                            <li class="star fa-regular fa-star" value="3"></li>
+                                            <li class="star fa-regular fa-star" value="4"></li>
+                                            <li class="star fa-regular fa-star" value="5"></li>
+                                        </span>
+                                        <input type="text" class="comment" placeholder="type here..">
+                                        <a class="submitreview fa-solid fa-arrow-right"></a>
+                                        <span class="comment-error error"></span>
+                                    </div>
+                                </div>
+                                <div class="card-body p-3">
+                                    <ul class="list-group">
+                                        <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2" id="userl">
+                                            <div class="avatar me-3">
+                                                <img src="/assets/img/kal-visuals-square.jpg" alt="kal" class="border-radius-lg shadow">
+                                            </div>
+                                            <div class="d-flex align-items-start flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm usern"></h6>
+                                                <p class="mb-0 text-xs userr"></p>
+                                            </div>
+                                            <div class="ms-4 d-flex align-items-start flex-row justify-content-center">
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                            </div>
+                                            <!-- <a class="btn btn-link pe-3 ps-0 mb-0 ms-auto w-25 w-md-auto" href="javascript:;">Reply</a> -->
+                                        </li>
+                                        <?php
+                                        if (!empty($ratings)) {
+                                            foreach ($ratings as $rating) {
+                                        ?>
+                                                <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
+                                                    <div class="avatar me-3">
+                                                        <img src="/assets/img/kal-visuals-square.jpg" alt="kal" class="border-radius-lg shadow">
+                                                    </div>
+                                                    <div class="d-flex align-items-start flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm"><?= $rating->user_name ?></h6>
+                                                        <p class="mb-0 text-xs"><?= $rating->review ?></p>
+                                                    </div>
+                                                    <div class="ms-4 d-flex align-items-start flex-row justify-content-center">
+                                                        <?php
+                                                        for ($i = 0; $i < $rating->star; $i++) {
+                                                            echo '<i class="fa-solid fa-star"></i>';
+                                                        }
+                                                        for ($j = $i; $j < 5; $j++) {
+                                                            echo '<i class="fa-regular fa-star"></i>';
+                                                        }
+                                                        ?>
+                                                    </div>
+                                                </li>
+                                        <?php
+                                            }
+                                        }
+                                        ?>
                                     </ul>
                                 </div>
                             </div>

@@ -170,7 +170,7 @@
                                     <div class="card-header">
                                         <?= $this->Flash->render() ?>
                                         <h4 class="font-weight-bolder">Edit User</h4>
-                                        <p class="mb-0">Update your email and password</p>
+                                        <p class="mb-0">Update your name and email</p>
                                     </div>
                                     <div class="card-body">
                                         <?= $this->Form->create($user, ['id' => 'regform']) ?>

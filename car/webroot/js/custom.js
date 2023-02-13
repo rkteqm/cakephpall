@@ -261,4 +261,64 @@ $(document).ready(function () {
         });
     });
 
+    $('.commentbtnlogin').click(function () {
+        alert('Please login to post your review')
+    });
+
+    $('body').on('click', '.commentbtn', function () {
+        $(this).hide();
+        $('.commentshow').show();
+    });
+
+    var star = 1;
+    $('.star').click(function () {
+        star = $(this).val();
+        $(this).prevAll('li').removeClass('fa-regular');
+        $(this).prevAll('li').addClass('fa-solid');
+        $(this).removeClass('fa-regular');
+        $(this).addClass('fa-solid');
+        $(this).nextAll('li').removeClass('fa-solid');
+        $(this).nextAll('li').addClass('fa-regular');
+    });
+
+    $('.submitreview').click(function () {
+        var review = $('.comment').val();
+        review = review.trim();
+        if (review == '') {
+            $('.comment-error').html('Please enter your review')
+        } else {
+            var carid = $('.carid').val();
+            var userid = $('.userid').val();
+            var username = $('.username').val();
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken // this is defined in app.php as a js variable
+                },
+                url: "/users/view",
+                type: "JSON",
+                method: "POST",
+                data: {
+                    'star': star,
+                    'review': review,
+                    'car_id': carid,
+                    'user_id': userid,
+                    'user_name': username,
+                },
+                success: function (response) {
+
+                    var data = JSON.parse(response);
+                    console.log(data);
+                    if (data['status'] == 1) {
+                        // $('#userl').style('display', 'block !imaportant');
+                        // $('.usern').html(username);
+                        // $('.userr').html(review);
+                    } else {
+                        alert('error');
+                    }
+
+                }
+            });
+        }
+    });
+
 });

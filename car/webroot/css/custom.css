@@ -16,3 +16,27 @@
 .success {
     color: seagreen;
 }
+
+.carheight {
+    height: 250px;
+    width: 100%;
+}
+
+.comment {
+    margin-left: 15px;
+    border: 2px solid cyan;
+    border-radius: 15px;
+    width: 80%;
+}
+
+.commentshow {
+    display: none;
+}
+
+.fa-star {
+    color: #e91e63;
+}
+
+#userl {
+    display: none !important;
+}
