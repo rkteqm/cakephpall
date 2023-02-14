@@ -53,8 +53,10 @@
                 <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <div class="ms-md-auto pe-md-3 d-flex align-items-center">
                         <div class="input-group input-group-outline">
-                            <label class="form-label">Type here...</label>
-                            <input type="text" class="form-control">
+                            <?= $this->Form->create(null, ['type' => 'get', 'class' => 'float-left', 'id' => 'searchform']) ?>
+                            <?= $this->Form->control('key', ['placeholder' => 'Type here...', 'class' => 'form-control', 'label' => false, 'value' => $this->request->getQuery('key'), 'id' => 'searchBox']) ?>
+                            <?= $this->Form->submit('search', ['type' => 'hidden', 'id' => 'rahulsearch']) ?>
+                            <?= $this->Form->end() ?>
                         </div>
                     </div>
                     <ul class="navbar-nav  justify-content-end">

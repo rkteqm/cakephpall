@@ -246,52 +246,9 @@
                                     </div>
                                 </div>
                                 <div class="card-body p-3">
-                                    <ul class="list-group">
-                                        <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2" id="userl">
-                                            <div class="avatar me-3">
-                                                <img src="/assets/img/kal-visuals-square.jpg" alt="kal" class="border-radius-lg shadow">
-                                            </div>
-                                            <div class="d-flex align-items-start flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm usern"></h6>
-                                                <p class="mb-0 text-xs userr"></p>
-                                            </div>
-                                            <div class="ms-4 d-flex align-items-start flex-row justify-content-center">
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                            </div>
-                                            <!-- <a class="btn btn-link pe-3 ps-0 mb-0 ms-auto w-25 w-md-auto" href="javascript:;">Reply</a> -->
-                                        </li>
-                                        <?php
-                                        if (!empty($ratings)) {
-                                            foreach ($ratings as $rating) {
-                                        ?>
-                                                <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
-                                                    <div class="avatar me-3">
-                                                        <img src="/assets/img/kal-visuals-square.jpg" alt="kal" class="border-radius-lg shadow">
-                                                    </div>
-                                                    <div class="d-flex align-items-start flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm"><?= $rating->user_name ?></h6>
-                                                        <p class="mb-0 text-xs"><?= $rating->review ?></p>
-                                                    </div>
-                                                    <div class="ms-4 d-flex align-items-start flex-row justify-content-center">
-                                                        <?php
-                                                        for ($i = 0; $i < $rating->star; $i++) {
-                                                            echo '<i class="fa-solid fa-star"></i>';
-                                                        }
-                                                        for ($j = $i; $j < 5; $j++) {
-                                                            echo '<i class="fa-regular fa-star"></i>';
-                                                        }
-                                                        ?>
-                                                    </div>
-                                                </li>
-                                        <?php
-                                            }
-                                        }
-                                        ?>
-                                    </ul>
+                                    <div class="renderdata">
+                                        <?php echo $this->element('flash/rating') ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>

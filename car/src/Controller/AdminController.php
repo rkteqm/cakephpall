@@ -192,14 +192,19 @@ class AdminController extends AppController
 
     public function deletecar($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $id = $_REQUEST['id'];
         $car = $this->Cars->get($id);
         if ($this->Cars->delete($car)) {
+            echo json_encode(array(
+                "status" => 1,
+            ));
+            exit;
         } else {
-            $this->Flash->error(__('The car could not be deleted. Please, try again.'));
+            echo json_encode(array(
+                "status" => 0,
+            ));
+            exit;
         }
-
-        return $this->redirect(['action' => 'tables']);
     }
 
     public function dashboard()

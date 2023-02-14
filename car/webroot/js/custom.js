@@ -292,7 +292,7 @@ $(document).ready(function () {
             var username = $('.username').val();
             $.ajax({
                 headers: {
-                    'X-CSRF-TOKEN': csrfToken // this is defined in app.php as a js variable
+                    'X-CSRF-TOKEN': csrfToken 
                 },
                 url: "/users/view",
                 type: "JSON",
@@ -305,20 +305,39 @@ $(document).ready(function () {
                     'user_name': username,
                 },
                 success: function (response) {
-
-                    var data = JSON.parse(response);
-                    console.log(data);
-                    if (data['status'] == 1) {
-                        // $('#userl').style('display', 'block !imaportant');
-                        // $('.usern').html(username);
-                        // $('.userr').html(review);
-                    } else {
-                        alert('error');
-                    }
-
+                    $('.star:first').click();
+                    $('.commentshow').hide();
+                    $('.commentbtn').show();
+                    $('.renderdata').html('');
+                    $('.renderdata').append(response);
                 }
             });
         }
     });
 
+    $('body').on('click', '.deleteItem', function () {
+        var id = $(this).next('input').val();
+        if (confirm("Are you sure you want to delete?")) {
+            var hidetr = $(this).parents('tr');
+            $.ajax({
+                url: "/admin/deletecar",
+                data: { 'id': id },
+                type: "JSON",
+                method: "get",
+                success: function (response) {
+                    var data = JSON.parse(response);
+                    console.log(data);
+                    var status = data['status'];
+                    if (status == '1') {
+                        hidetr.hide();
+                    } else {
+                        alert('failure')
+                    }
+                }
+            });
+        }
+        return false;
+    });
+
 });
+

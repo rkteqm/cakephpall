@@ -89,7 +89,15 @@ class UsersController extends AppController
 
     public function home()
     {
-        $cars = $this->paginate($this->Cars->find('all')->where(['status' => 1])->order(['id' => 'desc']));
+        $key = $this->request->getQuery('key');
+        if ($key) {
+            $query = $this->Cars->find('all')
+                ->where(['Or' => ['company like' => '%' . $key . '%', 'brand like' => '%' . $key . '%', 'model like' => '%' . $key . '%', 'make like' => '%' . $key . '%', 'color like' => '%' . $key . '%']]);
+        } else {
+            $query = $this->Cars->find('all')->where(['status' => 1]);
+        }
+        $cars = $this->paginate($query->order(['id' => 'desc']));
+        // $cars = $this->paginate($this->Cars->find('all')->where(['status' => 1])->order(['id' => 'desc']));
         $this->set(compact('cars'));
     }
 
@@ -107,24 +115,27 @@ class UsersController extends AppController
                 $result->review = $review;
                 if ($this->Ratings->save($result)) {
                     $ratings = $this->Ratings->find('all')->where(['car_id' => $id])->order(['id' => 'desc']);
-                    echo json_encode(array(
-                        "status" => 1,
-                        "message" => "success",
-                        "ratings" => $ratings,
-                    ));
-                    exit;
+                    $this->set(compact('ratings'));
+                    // echo json_encode(array(
+                    //     "status" => 1,
+                    //     "message" => "success",
+                    //     "ratings" => $ratings,
+                    // ));
+                    // exit;
+                    // $this->autoRender = false;
+                    // $this->layout = false;
+                    // $this->viewBuilder()->setLayout(null);
+                    $this->render('/element/flash/rating');
                 }
             } else {
                 $rating = $this->Ratings->patchEntity($rating, $this->request->getData());
                 $rating['car_id'] = $id;
                 if ($this->Ratings->save($rating)) {
                     $ratings = $this->Ratings->find('all')->where(['car_id' => $id])->order(['id' => 'desc']);
-                    echo json_encode(array(
-                        "status" => 1,
-                        "message" => "success",
-                        "ratings" => $ratings,
-                    ));
-                    exit;
+                    $this->set(compact('ratings'));
+                    // $this->autoRender = false;
+                    // $this->viewBuilder()->setLayout(null);
+                    $this->render('/element/flash/rating');
                 } else {
                     echo json_encode(array(
                         "status" => 0,

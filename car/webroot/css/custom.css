@@ -35,6 +35,7 @@
 
 .fa-star {
     color: #e91e63;
+    cursor: pointer;
 }
 
 #userl {

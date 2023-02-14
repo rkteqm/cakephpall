@@ -51,7 +51,10 @@
                     <div class="ms-md-auto pe-md-3 d-flex align-items-center">
                         <div class="input-group input-group-outline">
                             <label class="form-label">Type here...</label>
-                            <input type="text" class="form-control">
+                            <input type="search" id="searchBox" class="form-control">
+                            <!-- <form class="form-inline form-control">
+                                <input class="form-control mr-sm-2" id="searchBox" type="search" placeholder="Search" aria-label="Search">
+                            </form> -->
                         </div>
                     </div>
                     <ul class="navbar-nav  justify-content-end">
@@ -217,7 +220,7 @@
                         </div>
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">
-                                <table class="table align-items-center justify-content-center mb-0">
+                                <table id="myTable" class="table align-items-center justify-content-center mb-0">
                                     <thead>
                                         <tr>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Car Company</th>
@@ -265,20 +268,39 @@
                                                         <?php } ?>
                                                         <input type="hidden" value="<?= $car->status ?>">
                                                     </td>
-                                                    <td class="align-middle text-center">
-                                                        <div class="d-flex align-items-center justify-content-center">
-                                                            <span class="me-2 text-xs font-weight-bold">60%</span>
-                                                            <div>
-                                                                <div class="progress">
-                                                                    <div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+                                                    <?php
+                                                    $sum = 0;
+                                                    $n = 0;
+                                                    $avg = 0;
+                                                    if (!empty($car->ratings)) {
+                                                        foreach ($car->ratings as $rating) {
+                                                            $n++;
+                                                            $sum += $rating->star;
+                                                        }
+                                                        $avg = intval(($sum / $n) * 20);
+                                                    ?>
+                                                        <td class="align-middle text-center">
+                                                            <div class="d-flex align-items-center justify-content-center">
+                                                                <span class="me-2 text-xs font-weight-bold"><?= $avg ?>%</span>
+                                                                <div>
+                                                                    <div class="progress">
+                                                                        <?php if ($avg >= 80) { ?>
+                                                                            <div class="progress-bar bg-gradient-success" role="progressbar" aria-valuenow="<?= $avg ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?= $avg ?>%;"></div>
+                                                                        <?php } elseif ($avg < 80 && $avg > 50) { ?>
+                                                                            <div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="<?= $avg ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?= $avg ?>%;"></div>
+                                                                        <?php } else { ?>
+                                                                            <div class="progress-bar bg-gradient-dander" role="progressbar" aria-valuenow="<?= $avg ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?= $avg ?>%;"></div>
+                                                                        <?php } ?>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
+                                                        </td>
+                                                    <?php } ?>
                                                     <td class="align-middle">
                                                         <?= $this->Html->link(__('View'), ['action' => 'viewcar', $car->id], ['class' => 'text-secondary font-weight-bold text-xs']) ?>
                                                         <?= $this->Html->link(__('Edit'), ['action' => 'editcar', $car->id], ['class' => 'text-secondary font-weight-bold text-xs']) ?>
-                                                        <?= $this->Form->postLink(__('Delete'), ['action' => 'deletecar', $car->id], ['class' => 'text-secondary font-weight-bold text-xs', 'confirm' => __('Are you sure you want to delete # {0}?', $car->id)]) ?>
+                                                        <a href="" class="text-secondary font-weight-bold text-xs deleteItem">Delete</a>
+                                                        <input type="hidden" value="<?= $car->id ?>">
                                                     </td>
                                                 </tr>
                                         <?php
@@ -419,3 +441,45 @@
     <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="../assets/js/material-dashboard.min.js?v=3.0.4"></script>
 </body>
+
+<script>
+    function performSearch() {
+
+        // Declare search string 
+        var filter = searchBox.value.toUpperCase();
+
+        // Loop through first tbody's rows
+        for (var rowI = 0; rowI < trs.length; rowI++) {
+
+            // define the row's cells
+            var tds = trs[rowI].getElementsByTagName("td");
+
+            // hide the row
+            trs[rowI].style.display = "none";
+
+            // loop through row cells
+            for (var cellI = 0; cellI < tds.length; cellI++) {
+
+                // if there's a match
+                if (tds[cellI].innerHTML.toUpperCase().indexOf(filter) > -1) {
+
+                    // show the row
+                    trs[rowI].style.display = "";
+
+                    // skip to the next row
+                    continue;
+
+                }
+            }
+        }
+
+    }
+
+    // declare elements
+    const searchBox = document.getElementById('searchBox');
+    const table = document.getElementById("myTable");
+    const trs = table.tBodies[0].getElementsByTagName("tr");
+
+    // add event listener to search box
+    searchBox.addEventListener('keyup', performSearch);
+</script>
