@@ -69,16 +69,16 @@
         },
         {
             "name": "cakephp/cakephp",
-            "version": "4.4.11",
+            "version": "4.4.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/cakephp.git",
-                "reference": "7d9b6a639e5c1f52a813696f6b347726a74f9680"
+                "reference": "3b089816d7cae4cff0a2a4de3e1ee651f73979df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/7d9b6a639e5c1f52a813696f6b347726a74f9680",
-                "reference": "7d9b6a639e5c1f52a813696f6b347726a74f9680",
+                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/3b089816d7cae4cff0a2a4de3e1ee651f73979df",
+                "reference": "3b089816d7cae4cff0a2a4de3e1ee651f73979df",
                 "shasum": ""
             },
             "require": {
@@ -163,7 +163,7 @@
                 "rapid-development",
                 "validation"
             ],
-            "time": "2023-02-11T01:01:55+00:00"
+            "time": "2023-01-06T03:13:27+00:00"
         },
         {
             "name": "cakephp/chronos",
@@ -2470,16 +2470,16 @@
         },
         {
             "name": "composer/composer",
-            "version": "2.5.3",
+            "version": "2.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "607a4c04006ce1d2b6fdfd5467bae3d7ad9ce5ab"
+                "reference": "c76c013c555160410af47c03a0e173518e3f5796"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/607a4c04006ce1d2b6fdfd5467bae3d7ad9ce5ab",
-                "reference": "607a4c04006ce1d2b6fdfd5467bae3d7ad9ce5ab",
+                "url": "https://api.github.com/repos/composer/composer/zipball/c76c013c555160410af47c03a0e173518e3f5796",
+                "reference": "c76c013c555160410af47c03a0e173518e3f5796",
                 "shasum": ""
             },
             "require": {
@@ -2574,7 +2574,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-02-10T12:23:52+00:00"
+            "time": "2023-02-04T13:33:22+00:00"
         },
         {
             "name": "composer/metadata-minifier",
