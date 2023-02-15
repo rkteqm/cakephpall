@@ -39,27 +39,41 @@ class UsersController extends AppController
 
     public function signup()
     {
+        if ($this->request->is('ajax') && $this->request->is('get')) {
+            $user = $this->Users->newEmptyEntity();
+            $this->set(compact('user'));
+            $this->render('/element/flash/signup');
+        }
+        $this->viewBuilder()->setLayout('signlayout');
         $user = $this->Users->newEmptyEntity();
         if ($this->request->is('post')) {
+            $created_at = date('Y-m-d H:i:s');
             $user = $this->Users->patchEntity($user, $this->request->getData());
+            $user->created_at = $created_at;
             if ($this->Users->save($user)) {
-                $this->Flash->success(__('The user has been saved.'));
-
-                return $this->redirect(['action' => 'signup']);
+                echo json_encode(array(
+                    "status" => 1,
+                    "message" => "The user has been saved.",
+                ));
+                exit;
+            } else {
+                echo json_encode(array(
+                    "status" => 0,
+                    "message" => "Email already exist.",
+                    // "message" => "The user could not be saved. Please, try again.",
+                ));
+                exit;
             }
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
         $this->set(compact('user'));
     }
 
-    public function beforeFilter(\Cake\Event\EventInterface $event)
-    {
-        parent::beforeFilter($event);
-        $this->Authentication->addUnauthenticatedActions(['signin', 'signup', 'home', 'view']);
-    }
-
     public function signin()
     {
+        if ($this->request->is('ajax') && $_REQUEST['status'] == true) {
+            $this->render('/element/flash/signin');
+        }
+        $this->viewBuilder()->setLayout('signlayout');
         $this->request->allowMethod(['get', 'post']);
         $result = $this->Authentication->getResult();
         if ($result && $result->isValid()) {
@@ -83,23 +97,16 @@ class UsersController extends AppController
         }
     }
 
+    public function beforeFilter(\Cake\Event\EventInterface $event)
+    {
+        parent::beforeFilter($event);
+        $this->Authentication->addUnauthenticatedActions(['signin', 'signup', 'home', 'viewtest', 'dashtest', 'signintest', 'signuptest', 'view']);
+    }
+
     public function profile()
     {
-    }
-
-    public function profiletest()
-    {
-        if ($_REQUEST['status'] == true) {
+        if ($this->request->is('ajax') && $_REQUEST['status'] == true) {
             $this->render('/element/flash/profile');
-        }
-    }
-
-    public function test($test = null)
-    {
-        if ($_REQUEST['test'] == true) {
-            $ratings = $this->Ratings->find('all')->order(['id' => 'desc']);
-            $this->set(compact('ratings'));
-            $this->render('/element/flash/rating');
         }
     }
 
@@ -113,23 +120,8 @@ class UsersController extends AppController
             $query = $this->Cars->find('all')->where(['status' => 1]);
         }
         $cars = $this->paginate($query->order(['id' => 'desc']));
-        // $cars = $this->paginate($this->Cars->find('all')->where(['status' => 1])->order(['id' => 'desc']));
         $this->set(compact('cars'));
-    }
-
-    public function dashtest()
-    {
-        if ($_REQUEST['status'] == true) {
-            $key = $this->request->getQuery('key');
-            if ($key) {
-                $query = $this->Cars->find('all')
-                    ->where(['Or' => ['company like' => '%' . $key . '%', 'brand like' => '%' . $key . '%', 'model like' => '%' . $key . '%', 'make like' => '%' . $key . '%', 'color like' => '%' . $key . '%']]);
-            } else {
-                $query = $this->Cars->find('all')->where(['status' => 1]);
-            }
-            $cars = $this->paginate($query->order(['id' => 'desc']));
-            // $cars = $this->paginate($this->Cars->find('all')->where(['status' => 1])->order(['id' => 'desc']));
-            $this->set(compact('cars'));
+        if ($this->request->is('ajax') && $_REQUEST['status'] == true) {
             $this->render('/element/flash/home');
         }
     }
@@ -140,51 +132,6 @@ class UsersController extends AppController
             $rating = $this->Ratings->newEmptyEntity();
             $user_id = $this->request->getData('user_id');
             $id = $this->request->getData('car_id');
-            // echo $user_id;
-            // echo $id;
-            // die;
-            $result = $this->Ratings->find('all')->where(['car_id' => $id, 'user_id' => $user_id])->first();
-            if ($result) {
-                $stars = $this->request->getData('star');
-                $review = $this->request->getData('review');
-                $result->star = $stars;
-                $result->review = $review;
-                if ($this->Ratings->save($result)) {
-                    $ratings = $this->Ratings->find('all')->where(['car_id' => $id])->order(['id' => 'desc']);
-                    $this->set(compact('ratings'));
-                    $this->render('/element/flash/rating');
-                }
-            } else {
-                $rating = $this->Ratings->patchEntity($rating, $this->request->getData());
-                $rating['car_id'] = $id;
-                if ($this->Ratings->save($rating)) {
-                    $ratings = $this->Ratings->find('all')->where(['car_id' => $id])->order(['id' => 'desc']);
-                    $this->set(compact('ratings'));
-                    $this->render('/element/flash/rating');
-                } else {
-                    echo json_encode(array(
-                        "status" => 0,
-                        "message" => "error",
-                        "ratings" => null,
-                    ));
-                    exit;
-                }
-            }
-        }
-        $car = $this->Cars->get($id);
-        $ratings = $this->Ratings->find('all')->where(['car_id' => $id])->order(['id' => 'desc']);
-        $this->set(compact('car', 'ratings'));
-    }
-
-    public function viewtest($id = null)
-    {
-        if ($this->request->is('post')) {
-            $rating = $this->Ratings->newEmptyEntity();
-            $user_id = $this->request->getData('user_id');
-            $id = $this->request->getData('car_id');
-            // echo $user_id;
-            // echo $id;
-            // die;
             $result = $this->Ratings->find('all')->where(['car_id' => $id, 'user_id' => $user_id])->first();
             if ($result) {
                 $stars = $this->request->getData('star');

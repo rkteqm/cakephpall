@@ -1,5 +1,6 @@
 .signupbimage {
     background-image: url('/img/illustrations/illustration-signup.jpg');
+    /* background-image: url('/img/loader.gif'); */
     background-size: cover;
 }
 

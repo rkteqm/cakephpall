@@ -87,7 +87,24 @@ $(document).ready(function () {
             }
         },
         submitHandler: function (form) {
-            form.submit();
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                url: "/users/signup",
+                type: "JSON",
+                method: "POST",
+                data: $(form).serialize(),
+                success: function (response) {
+                    var data = JSON.parse(response);
+                    if(data['status'] == 1){
+                        $('.signintest').click();
+                    }else{
+                        alert(data['message']);
+                    }
+                }
+            });
+
         }
     });
 
@@ -121,27 +138,6 @@ $(document).ready(function () {
             form.submit();
         }
     });
-
-
-
-
-    // $("#rateform").validate({
-    //     rules: {
-    //         review: {
-    //             required: true,
-    //             noSpace: true
-    //         },
-    //     },
-    //     messages: {
-    //         review: {
-    //             required: " Please enter your review",
-    //         },
-    //     },
-    //     submitHandler: function (form) {
-    //         form.submit();
-    //     }
-    // });
-
 
     $("#carform").validate({
         rules: {
@@ -231,9 +227,6 @@ $(document).ready(function () {
         }
     });
 
-    // $('.badge-sm').click(function(){
-    //     alert('hello');
-    // })
     $('body').on('click', '.badge-sm', function () {
         var id = $(this).prev('input').val();
         var status = $(this).next('input').val();
@@ -293,7 +286,7 @@ $(document).ready(function () {
                 headers: {
                     'X-CSRF-TOKEN': csrfToken
                 },
-                url: "/users/viewtest",
+                url: "/users/view",
                 type: "JSON",
                 method: "POST",
                 data: {
@@ -379,7 +372,7 @@ $(document).ready(function () {
     $('body').on('click', '.viewtest', function () {
         var id = $(this).next('input').val();
         $.ajax({
-            url: "/users/viewtest",
+            url: "/users/view",
             data: { 'id': id },
             type: "JSON",
             method: "get",
@@ -392,9 +385,8 @@ $(document).ready(function () {
     });
 
     $('body').on('click', '.dashtest', function () {
-        var id = $(this).next('input').val();
         $.ajax({
-            url: "/users/dashtest",
+            url: "/users/home",
             data: { 'status': true },
             type: "JSON",
             method: "get",
@@ -407,15 +399,42 @@ $(document).ready(function () {
     });
 
     $('body').on('click', '.profiletest', function () {
-        var id = $(this).next('input').val();
         $.ajax({
-            url: "/users/profiletest",
+            url: "/users/profile",
             data: { 'status': true },
             type: "JSON",
             method: "get",
             success: function (response) {
                 $('.homecontent').html('');
                 $('.homecontent').append(response);
+            }
+        });
+        return false;
+    });
+
+    $('body').on('click', '.signintest', function () {
+        $.ajax({
+            url: "/users/signin",
+            data: { 'status': true },
+            type: "JSON",
+            method: "get",
+            success: function (response) {
+                $('.signcontent').html('');
+                $('.signcontent').append(response);
+            }
+        });
+        return false;
+    });
+
+    $('body').on('click', '.signuptest', function () {
+        $.ajax({
+            url: "/users/signup",
+            data: { 'status': true },
+            type: "JSON",
+            method: "get",
+            success: function (response) {
+                $('.signcontent').html('');
+                $('.signcontent').append(response);
             }
         });
         return false;

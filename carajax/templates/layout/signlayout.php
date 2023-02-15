@@ -44,13 +44,22 @@
   <?= $this->fetch('script') ?>
 </head>
 
-<body class="g-sidenav-show  bg-gray-200">
+<body class="">
+
   <?php echo $this->Html->meta('csrfToken', $this->request->getAttribute('csrfToken')); ?>
   <script>
     var csrfToken = $('meta[name="csrfToken"]').attr('content');
   </script>
 
-
+  <div class="container position-sticky z-index-sticky top-0">
+    <div class="row">
+      <div class="col-12">
+        <!-- Navbar -->
+        <?= $this->element('flash/navbar') ?>
+        <!-- End Navbar -->
+      </div>
+    </div>
+  </div>
   <?= $this->fetch('content') ?>
 
 </body>

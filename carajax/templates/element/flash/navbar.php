@@ -16,14 +16,11 @@
         <li class="nav-item">
           <?= $this->Html->link('<i class="fa fa-chart-pie opacity-6 text-dark me-1"></i>' . __('Dashboard'), ['controller' => 'Users', 'action' => 'home'], ['escape' => false, 'title' => __('Dashboard'), 'class' => 'nav-link me-2']) ?>
         </li>
-        <!-- <li class="nav-item">
-          <?= $this->Html->link('<i class="fa fa-user opacity-6 text-dark me-1"></i>' . __('Profile'), ['controller' => 'Users', 'action' => 'profile'], ['escape' => false, 'title' => __('Profile'), 'class' => 'nav-link me-2']) ?>
-        </li> -->
         <li class="nav-item">
-          <?= $this->Html->link('<i class="fas fa-user-circle opacity-6 text-dark me-1"></i>' . __('Sign Up'), ['controller' => 'Users', 'action' => 'signup'], ['escape' => false, 'title' => __('Sign Up'), 'class' => 'nav-link me-2']) ?>
+          <?= $this->Html->link('<i class="fas fa-user-circle opacity-6 text-dark me-1"></i>' . __('Sign Up'), ['controller' => 'Users', 'action' => ''], ['escape' => false, 'title' => __('Sign Up'), 'class' => 'signuptest nav-link me-2']) ?>
         </li>
         <li class="nav-item">
-          <?= $this->Html->link('<i class="fas fa-key opacity-6 text-dark me-1"></i>' . __('Sign In'), ['controller' => 'Users', 'action' => 'signin'], ['escape' => false, 'title' => __('Sign In'), 'class' => 'nav-link me-2']) ?>
+          <?= $this->Html->link('<i class="fas fa-key opacity-6 text-dark me-1"></i>' . __('Sign In'), ['controller' => 'Users', 'action' => ''], ['escape' => false, 'title' => __('Sign In'), 'class' => 'signintest nav-link me-2']) ?>
         </li>
       </ul>
       <ul class="navbar-nav d-lg-flex d-none">
