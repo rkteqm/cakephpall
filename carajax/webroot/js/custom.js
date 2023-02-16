@@ -135,7 +135,31 @@ $(document).ready(function () {
             },
         },
         submitHandler: function (form) {
-            form.submit();
+            // form.submit();
+            // return false;
+            var formData = new FormData(form);
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                url: "/admin/editcar",
+                type: "JSON",
+                method: "POST",
+                cache: false,
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function (response) {
+                    var data = JSON.parse(response);
+                    if (data['status'] == 0) {
+                        alert(data['message']);
+                    } else {
+                        $('#carform').trigger("reset");
+                        $('#ajaxModelEdit').modal('hide');
+                        swal("Good job!", "The car has been saved!", "success");
+                    }
+                }
+            });
         }
     });
 
@@ -209,6 +233,8 @@ $(document).ready(function () {
                     if (data['status'] == 0) {
                         alert(data['message']);
                     } else {
+                        $('#carform').trigger("reset");
+                        $('#ajaxModel').modal('hide');
                         $('.tablestest').click();
                     }
                 }
@@ -531,6 +557,89 @@ $(document).ready(function () {
             }
         });
         return false;
+    });
+
+    // add model
+    $('#createNewCar').click(function () {
+        $('#carform').trigger("reset");
+        $('#modelHeading').html("Create New Car");
+        $('#ajaxModel').modal('show');
+        return false;
+    });
+
+    // Create Product Code
+    // $('#saveBtn').click(function (e) {
+    //     e.preventDefault();
+    //     $(this).html('Sending..');
+
+    // $.ajax({
+    //     data: $('#carform').serialize(),
+    //     url: "/admin/addcar",
+    //     type: "POST",
+    //     dataType: 'json',
+    //     success: function (data) {
+
+    //         $('#carform').trigger("reset");
+    //         $('#ajaxModel').modal('hide');
+    //         table.draw();
+
+    //     },
+    //     error: function (data) {
+    //         console.log('Error:', data);
+    //         $('#saveBtn').html('Save Changes');
+    //     }
+    // });
+    // alert("hi");
+    // var formData = new FormData('#carform');
+    // alert("hill");
+    // $.ajax({
+    //     headers: {
+    //         'X-CSRF-TOKEN': csrfToken
+    //     },
+    //     url: "/admin/addcar",
+    //     type: "JSON",
+    //     method: "POST",
+    //     cache: false,
+    //     processData: false,
+    //     contentType: false,
+    //     data: $('#carform').serialize(),
+    //     // data: formData,
+    //     success: function (response) {
+    //         var data = JSON.parse(response);
+    //         if (data['status'] == 0) {
+    //             alert(data['message']);
+    //         } else {
+    //             // $('.tablestest').click();
+    //             $('#carform').trigger("reset");
+    //             $('#ajaxModel').modal('hide');
+    //             table.draw();
+    //         }
+    //     }
+    // });
+    // return false;
+    // });
+
+    $('body').on('click', '.editCar', function () {
+        var car_id = $(this).data('id');
+        $.ajax({
+            url: "/admin/edit",
+            data: { 'id': car_id },
+            type: "JSON",
+            method: "get",
+            success: function (response) {
+                car = $.parseJSON(response);
+                $('#modelHeading').html("Edit Product");
+                $('#ajaxModelEdit').modal('show');
+                $('#iddd').val(car['id']);
+                $('#image').val(car['image']);
+                $('#company').val(car['company']);
+                $('#brand').val(car['brand']);
+                $('#model').val(car['model']);
+                $('#make').val(car['make']);
+                $('#color').val(car['color']);
+                $('#description').val(car['description']);
+            }
+        });
     });
 
 });

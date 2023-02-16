@@ -64,7 +64,6 @@ class AdminController extends AppController
             $this->autoRender = false;
 
             $data = $this->request->getData();
-
             $productImage = $this->request->getData("image");
             $fileName = $productImage->getClientFilename();
             $fileSize = $productImage->getSize();
@@ -103,15 +102,22 @@ class AdminController extends AppController
     }
 
 
+    public function edit($id = null)
+    {   
+        $id = $_GET['id'];
+        $car = $this->Cars->get($id);
+        echo json_encode($car);
+        exit;
+    }
     public function editcar($id = null)
     {
-        $car = $this->Cars->get($id, [
-            'contain' => [],
-        ]);
-        $fileName2 = $car['image'];
-
         if ($this->request->is(['patch', 'post', 'put'])) {
             $data = $this->request->getData();
+            $fileName2 = $this->request->getData("imagedd");
+            $id = $this->request->getData("iddd");
+            $car = $this->Cars->get($id, [
+                'contain' => [],
+            ]);
             $productImage = $this->request->getData("image");
             $fileName = $productImage->getClientFilename();
             if ($fileName == '') {
@@ -134,9 +140,17 @@ class AdminController extends AppController
                         $data["image"] = $fileName;
                     }
                 }
-                return $this->redirect(['action' => 'tables']);
+                echo json_encode(array(
+                    "status" => 1,
+                    "message" => "The car has been saved.",
+                ));
+                exit;
             }
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+            echo json_encode(array(
+                "status" => 0,
+                "message" => "The car could not be saved. Please, try again.",
+            ));
+            exit;
         }
         $brands = $this->Users->Brands->find('list', ['limit' => 200])->all()->toArray();
         $this->set(compact('car', 'brands'));
@@ -167,7 +181,7 @@ class AdminController extends AppController
                 $sum += $arr['star'];
                 $count++;
             }
-            $avg = intval(($sum / $count)*20);
+            $avg = intval(($sum / $count) * 20);
         }
         $rating = $this->Ratings->newEmptyEntity();
         if ($this->request->is('post')) {

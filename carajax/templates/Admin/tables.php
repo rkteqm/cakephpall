@@ -17,7 +17,8 @@
                     <?= $this->Html->link('<div class="text-white text-center me-2 d-flex align-items-center justify-content-center"><i class="material-icons opacity-10">table_view</i></div><span class="nav-link-text ms-1">Tables</span>' . __(''), ['controller' => 'Admin', 'action' => 'tables'], ['escape' => false, 'title' => __('Tables'), 'class' => 'nav-link text-white active bg-gradient-primary']) ?>
                 </li>
                 <li class="nav-item">
-                    <?= $this->Html->link('<div class="text-white text-center me-2 d-flex align-items-center justify-content-center"><i class="fa-solid fa-upload opacity-10"></i></div><span class="nav-link-text ms-1">Add Car</span>' . __(''), ['controller' => 'Admin', 'action' => 'addcar'], ['escape' => false, 'title' => __('Add Car'), 'class' => 'nav-link text-white']) ?>
+                    <?= $this->Html->link('<div class="text-white text-center me-2 d-flex align-items-center justify-content-center"><i class="fa-solid fa-upload opacity-10"></i></div><span class="nav-link-text ms-1">Add Car</span>' . __(''), ['controller' => 'Admin', 'action' => ''], ['escape' => false, 'title' => __('Add Car'), 'class' => 'nav-link text-white', 'href' => 'javascript:void(0)', 'id' => 'createNewCar']) ?>
+                    <!-- <a class="btn btn-success" href="javascript:void(0)" id="createNewCar"> Create New Car</a> -->
                 </li>
                 <li class="nav-item mt-3">
                     <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
@@ -303,7 +304,8 @@
                                                     </td>
                                                     <td class="align-middle">
                                                         <?= $this->Html->link(__('View'), ['action' => 'viewcar', $car->id], ['class' => 'text-secondary font-weight-bold text-xs']) ?>
-                                                        <?= $this->Html->link(__('Edit'), ['action' => 'editcar', $car->id], ['class' => 'text-secondary font-weight-bold text-xs']) ?>
+                                                        <!-- <?= $this->Html->link(__('Edit'), ['action' => 'editcar', $car->id], ['class' => 'text-secondary font-weight-bold text-xs']) ?> -->
+                                                        <a href="javascript:void(0)" data-toggle="tooltip" data-id="<?= $car->id ?>" data-original-title="Edit" class="text-secondary font-weight-bold text-xs editCar">Edit</a>
                                                         <a href="" class="text-secondary font-weight-bold text-xs deleteItem">Delete</a>
                                                         <input type="hidden" value="<?= $car->id ?>">
                                                     </td>
@@ -319,6 +321,196 @@
                     </div>
                 </div>
             </div>
+            <!-- edit modal -->
+            <!-- <a href="javascript:void(0)" data-toggle="tooltip" data-id="30" data-original-title="Edit" class="edit btn btn-primary btn-sm editProduct">Edit</a> -->
+            <!-- <a class="btn btn-success" href="javascript:void(0)" id="createNewCar"> Create New Car</a> -->
+
+            <!-- <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editProduct">Edit</a>   -->
+            <div class="modal fade" id="ajaxModelEdit" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="modelHeading"></h4>
+                        </div>
+                        <div class="modal-body">
+                            <?= $this->Form->create($car, ["enctype" => "multipart/form-data", 'id' => 'carformedit', 'class' => 'form-horizontal']) ?>
+                            <fieldset>
+                                <?= $this->Form->error('image') ?>
+                                <label id="image-error" class="error" for="image"></label>
+                                <div class="input-group input-group-outline mb-3">
+                                    <?= $this->Form->input('image', ['required' => false, 'type' => 'file', 'class' => 'form-control']) ?>
+                                    <input type="hidden" id="image" name="imagedd">
+                                    <input type="hidden" id="iddd" name="iddd">
+                                </div>
+                                <?= $this->Form->error('company') ?>
+                                <label id="company-error" class="error" for="company"></label>
+                                <div class="input-group input-group-outline mb-3">
+                                    <label class="form-label">Company</label>
+                                    <?= $this->Form->input('company', ['required' => false, 'type' => 'text', 'class' => 'form-control', 'id' => 'company']) ?>
+                                </div>
+                                <?= $this->Form->error('brand') ?>
+                                <label id="brand-error" class="error" for="brand"></label>
+                                <div class="input-group input-group-outline mb-3">
+                                    <?= $this->Form->select(
+                                        'brand',
+                                        [
+                                            'Thar' => 'Thar',
+                                            'Fortuner' => 'Fortuner',
+                                            'Alto' => 'Alto',
+                                        ],
+                                        ['empty' => 'Select car brand', 'class' => 'form-control', 'id' => 'brand']
+                                    ) ?>
+                                </div>
+                                <?= $this->Form->error('model') ?>
+                                <label id="model-error" class="error" for="model"></label>
+                                <div class="input-group input-group-outline mb-3">
+                                    <?= $this->Form->select(
+                                        'model',
+                                        [
+                                            '4x4' => '4x4',
+                                            '4x2' => '4x2',
+                                        ],
+                                        ['empty' => 'Select car model', 'class' => 'form-control', 'id' => 'model']
+                                    ) ?>
+                                </div>
+                                <?= $this->Form->error('make') ?>
+                                <label id="make-error" class="error" for="make"></label>
+                                <div class="input-group input-group-outline mb-3">
+                                    <?= $this->Form->select(
+                                        'make',
+                                        [
+                                            '2016' => '2016',
+                                            '2017' => '2017',
+                                            '2018' => '2018',
+                                            '2019' => '2019',
+                                            '2020' => '2020',
+                                            '2021' => '2021',
+                                            '2022' => '2022',
+                                            '2023' => '2023',
+                                        ],
+                                        ['empty' => 'Select make year', 'class' => 'form-control', 'id' => 'make']
+                                    ) ?>
+                                </div>
+                                <?= $this->Form->error('color') ?>
+                                <label id="color-error" class="error" for="color"></label>
+                                <div class="input-group input-group-outline mb-3">
+                                    <?= $this->Form->select(
+                                        'color',
+                                        [
+                                            'Red' => 'Red',
+                                            'Black' => 'Black',
+                                            'White' => 'White',
+                                        ],
+                                        ['empty' => 'Select car color', 'class' => 'form-control', 'id' => 'color']
+                                    ) ?>
+                                </div>
+                                <?= $this->Form->error('description') ?>
+                                <label id="description-error" class="error" for="description"></label>
+                                <div class="input-group input-group-outline mb-3">
+                                    <?= $this->Form->textarea('description', ['required' => false, 'type' => 'textarea', 'class' => 'form-control', 'placeholder' => 'Description', 'id' => 'description']) ?>
+                                </div>
+                            </fieldset>
+                            <div class="text-center">
+                                <?= $this->Form->button(__('Submit'), ["class" => "btn btn-lg bg-gradient-primary btn-lg w-30 mt-4 mb-0"]) ?>
+                            </div>
+                            <?= $this->Form->end() ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="ajaxModel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="modelHeading"></h4>
+                        </div>
+                        <div class="modal-body">
+                            <?= $this->Form->create($car, ["enctype" => "multipart/form-data", 'id' => 'carform', 'class' => 'form-horizontal']) ?>
+                            <fieldset>
+                                <?= $this->Form->error('image') ?>
+                                <label id="image-error" class="error" for="image"></label>
+                                <div class="input-group input-group-outline mb-3">
+                                    <?= $this->Form->input('image', ['required' => false, 'type' => 'file', 'class' => 'form-control']) ?>
+                                    <input type="hidden" id="image" name="imagedd">
+                                    <input type="hidden" id="iddd" name="iddd">
+                                </div>
+                                <?= $this->Form->error('company') ?>
+                                <label id="company-error" class="error" for="company"></label>
+                                <div class="input-group input-group-outline mb-3">
+                                    <label class="form-label">Company</label>
+                                    <?= $this->Form->input('company', ['required' => false, 'type' => 'text', 'class' => 'form-control', 'id' => 'company']) ?>
+                                </div>
+                                <?= $this->Form->error('brand') ?>
+                                <label id="brand-error" class="error" for="brand"></label>
+                                <div class="input-group input-group-outline mb-3">
+                                    <?= $this->Form->select(
+                                        'brand',
+                                        [
+                                            'Thar' => 'Thar',
+                                            'Fortuner' => 'Fortuner',
+                                            'Alto' => 'Alto',
+                                        ],
+                                        ['empty' => 'Select car brand', 'class' => 'form-control', 'id' => 'brand']
+                                    ) ?>
+                                </div>
+                                <?= $this->Form->error('model') ?>
+                                <label id="model-error" class="error" for="model"></label>
+                                <div class="input-group input-group-outline mb-3">
+                                    <?= $this->Form->select(
+                                        'model',
+                                        [
+                                            '4x4' => '4x4',
+                                            '4x2' => '4x2',
+                                        ],
+                                        ['empty' => 'Select car model', 'class' => 'form-control', 'id' => 'model']
+                                    ) ?>
+                                </div>
+                                <?= $this->Form->error('make') ?>
+                                <label id="make-error" class="error" for="make"></label>
+                                <div class="input-group input-group-outline mb-3">
+                                    <?= $this->Form->select(
+                                        'make',
+                                        [
+                                            '2016' => '2016',
+                                            '2017' => '2017',
+                                            '2018' => '2018',
+                                            '2019' => '2019',
+                                            '2020' => '2020',
+                                            '2021' => '2021',
+                                            '2022' => '2022',
+                                            '2023' => '2023',
+                                        ],
+                                        ['empty' => 'Select make year', 'class' => 'form-control', 'id' => 'make']
+                                    ) ?>
+                                </div>
+                                <?= $this->Form->error('color') ?>
+                                <label id="color-error" class="error" for="color"></label>
+                                <div class="input-group input-group-outline mb-3">
+                                    <?= $this->Form->select(
+                                        'color',
+                                        [
+                                            'Red' => 'Red',
+                                            'Black' => 'Black',
+                                            'White' => 'White',
+                                        ],
+                                        ['empty' => 'Select car color', 'class' => 'form-control', 'id' => 'color']
+                                    ) ?>
+                                </div>
+                                <?= $this->Form->error('description') ?>
+                                <label id="description-error" class="error" for="description"></label>
+                                <div class="input-group input-group-outline mb-3">
+                                    <?= $this->Form->textarea('description', ['required' => false, 'type' => 'textarea', 'class' => 'form-control', 'placeholder' => 'Description', 'id' => 'description']) ?>
+                                </div>
+                            </fieldset>
+                            <div class="text-center">
+                                <?= $this->Form->button(__('Submit'), ["class" => "btn btn-lg bg-gradient-primary btn-lg w-30 mt-4 mb-0"]) ?>
+                            </div>
+                            <?= $this->Form->end() ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- edit model end -->
             <footer class="footer py-4  ">
                 <div class="container-fluid">
                     <div class="row align-items-center justify-content-lg-between">

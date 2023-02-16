@@ -251,6 +251,7 @@
                                         </div>
                                     </fieldset>
                                     <div class="text-center">
+                                        <input type="hidden" value="<?= $car->id ?>">
                                         <?= $this->Form->button(__('Submit'), ["class" => "btn btn-lg bg-gradient-primary btn-lg w-30 mt-4 mb-0"]) ?>
                                     </div>
                                     <?= $this->Form->end() ?>
