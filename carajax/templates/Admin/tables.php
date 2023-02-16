@@ -335,18 +335,17 @@
                         <div class="modal-body">
                             <?= $this->Form->create($car, ["enctype" => "multipart/form-data", 'id' => 'carformedit', 'class' => 'form-horizontal']) ?>
                             <fieldset>
-                                <?= $this->Form->error('image') ?>
-                                <label id="image-error" class="error" for="image"></label>
                                 <div class="input-group input-group-outline mb-3">
                                     <?= $this->Form->input('image', ['required' => false, 'type' => 'file', 'class' => 'form-control']) ?>
-                                    <input type="hidden" id="image" name="imagedd">
+                                    <input type="hidden" id="imagedd" name="imagedd">
                                     <input type="hidden" id="iddd" name="iddd">
+                                    <?= $this->Html->image(h($car->image), array('width' => '250px', 'id' => 'showimg')) ?>
+                                    <img src="" alt="">
                                 </div>
                                 <?= $this->Form->error('company') ?>
                                 <label id="company-error" class="error" for="company"></label>
                                 <div class="input-group input-group-outline mb-3">
-                                    <label class="form-label">Company</label>
-                                    <?= $this->Form->input('company', ['required' => false, 'type' => 'text', 'class' => 'form-control', 'id' => 'company']) ?>
+                                    <?= $this->Form->input('company', ['required' => false, 'label' => false, 'type' => 'text', 'class' => 'form-control', 'id' => 'company']) ?>
                                 </div>
                                 <?= $this->Form->error('brand') ?>
                                 <label id="brand-error" class="error" for="brand"></label>
@@ -358,7 +357,7 @@
                                             'Fortuner' => 'Fortuner',
                                             'Alto' => 'Alto',
                                         ],
-                                        ['empty' => 'Select car brand', 'class' => 'form-control', 'id' => 'brand']
+                                        ['class' => 'form-control', 'id' => 'brand']
                                     ) ?>
                                 </div>
                                 <?= $this->Form->error('model') ?>
@@ -370,7 +369,7 @@
                                             '4x4' => '4x4',
                                             '4x2' => '4x2',
                                         ],
-                                        ['empty' => 'Select car model', 'class' => 'form-control', 'id' => 'model']
+                                        ['class' => 'form-control', 'id' => 'model']
                                     ) ?>
                                 </div>
                                 <?= $this->Form->error('make') ?>
@@ -388,7 +387,7 @@
                                             '2022' => '2022',
                                             '2023' => '2023',
                                         ],
-                                        ['empty' => 'Select make year', 'class' => 'form-control', 'id' => 'make']
+                                        ['class' => 'form-control', 'id' => 'make']
                                     ) ?>
                                 </div>
                                 <?= $this->Form->error('color') ?>
@@ -401,7 +400,7 @@
                                             'Black' => 'Black',
                                             'White' => 'White',
                                         ],
-                                        ['empty' => 'Select car color', 'class' => 'form-control', 'id' => 'color']
+                                        ['class' => 'form-control', 'id' => 'color']
                                     ) ?>
                                 </div>
                                 <?= $this->Form->error('description') ?>
@@ -437,8 +436,8 @@
                                 <?= $this->Form->error('company') ?>
                                 <label id="company-error" class="error" for="company"></label>
                                 <div class="input-group input-group-outline mb-3">
-                                    <label class="form-label">Company</label>
-                                    <?= $this->Form->input('company', ['required' => false, 'type' => 'text', 'class' => 'form-control', 'id' => 'company']) ?>
+                                    <!-- <label class="form-label">Company</label> -->
+                                    <?= $this->Form->input('company', ['required' => false, 'label' => false, 'type' => 'text', 'class' => 'form-control', 'id' => 'company']) ?>
                                 </div>
                                 <?= $this->Form->error('brand') ?>
                                 <label id="brand-error" class="error" for="brand"></label>

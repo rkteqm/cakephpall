@@ -135,8 +135,6 @@ $(document).ready(function () {
             },
         },
         submitHandler: function (form) {
-            // form.submit();
-            // return false;
             var formData = new FormData(form);
             $.ajax({
                 headers: {
@@ -620,6 +618,13 @@ $(document).ready(function () {
     // });
 
     $('body').on('click', '.editCar', function () {
+
+        // $tr = $(this).closest('tr');
+        // var data = $tr.children('td').map(function(){
+        //     return $(this).text();
+        // });
+        // console.log(data);
+        // return false;
         var car_id = $(this).data('id');
         $.ajax({
             url: "/admin/edit",
@@ -632,15 +637,18 @@ $(document).ready(function () {
                 $('#ajaxModelEdit').modal('show');
                 $('#iddd').val(car['id']);
                 $('#image').val(car['image']);
+                $('#imagedd').val(car['image']);
+                var image = car['image'];
+                document.querySelector('#showimg').setAttribute('src', '/img/'+image);
                 $('#company').val(car['company']);
                 $('#brand').val(car['brand']);
                 $('#model').val(car['model']);
                 $('#make').val(car['make']);
                 $('#color').val(car['color']);
                 $('#description').val(car['description']);
+
             }
         });
     });
 
 });
-

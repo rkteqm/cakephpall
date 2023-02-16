@@ -87,7 +87,7 @@ class UsersController extends AppController
             } elseif ($user->role == 0) {
                 $redirect = $this->request->getQuery('redirect', [
                     'controller' => 'Admin',
-                    'action' => 'dashboard',
+                    'action' => 'tables',
                 ]);
             }
             return $this->redirect($redirect);
