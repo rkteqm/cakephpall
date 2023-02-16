@@ -60,7 +60,8 @@ class AdminController extends AppController
     public function addcar()
     {
         $car = $this->Cars->newEmptyEntity();
-        if ($this->request->is('post')) {
+        if ($this->request->is('ajax')) {
+            $this->autoRender = false;
 
             $data = $this->request->getData();
 
@@ -84,10 +85,17 @@ class AdminController extends AppController
                         $data["image"] = $fileName;
                     }
                 }
-
-                return $this->redirect(['action' => 'tables']);
+                echo json_encode(array(
+                    "status" => 1,
+                    "message" => "The car has been saved.",
+                ));
+                exit;
             }
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+            echo json_encode(array(
+                "status" => 0,
+                "message" => "The car could not be saved. Please, try again.",
+            ));
+            exit;
         }
 
         $brands = $this->Users->Brands->find('list', ['limit' => 200])->all()->toArray();
@@ -126,8 +134,6 @@ class AdminController extends AppController
                         $data["image"] = $fileName;
                     }
                 }
-                // $this->Flash->success(__('The car has been saved.'));
-
                 return $this->redirect(['action' => 'tables']);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
@@ -194,7 +200,8 @@ class AdminController extends AppController
     {
         $id = $_REQUEST['id'];
         $user = $this->Users->get($id);
-        if ($this->Users->delete($user)) {
+        $user->user_delete = 0;
+        if ($this->Users->save($user)) {
             echo json_encode(array(
                 "status" => 1,
             ));
@@ -211,7 +218,8 @@ class AdminController extends AppController
     {
         $id = $_REQUEST['id'];
         $car = $this->Cars->get($id);
-        if ($this->Cars->delete($car)) {
+        $car->car_delete = 0;
+        if ($this->Cars->save($car)) {
             echo json_encode(array(
                 "status" => 1,
             ));
@@ -234,12 +242,8 @@ class AdminController extends AppController
 
     public function tables()
     {
-        $users = $this->paginate($this->Users->find('all')->where(['role' => 1])->order(['id' => 'desc']));
-        $this->paginate = [
-            'contain' => ['Ratings'],
-            'order' => ['id' => 'desc'],
-        ];
-        $cars = $this->paginate($this->Cars);
+        $users = $this->paginate($this->Users->find('all')->where(['role' => 1, 'user_delete' => 1])->order(['id' => 'desc']));
+        $cars = $this->paginate($this->Cars->find('all')->contain('Ratings')->where(['car_delete' => 1])->order(['Cars.id' => 'desc']));
 
         $this->set(compact('users', 'cars'));
     }

@@ -97,9 +97,9 @@ $(document).ready(function () {
                 data: $(form).serialize(),
                 success: function (response) {
                     var data = JSON.parse(response);
-                    if(data['status'] == 1){
+                    if (data['status'] == 1) {
                         $('.signintest').click();
-                    }else{
+                    } else {
                         alert(data['message']);
                     }
                 }
@@ -192,7 +192,27 @@ $(document).ready(function () {
             },
         },
         submitHandler: function (form) {
-            form.submit();
+            var formData = new FormData(form);
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                url: "/admin/addcar",
+                type: "JSON",
+                method: "POST",
+                cache: false,
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function (response) {
+                    var data = JSON.parse(response);
+                    if (data['status'] == 0) {
+                        alert(data['message']);
+                    } else {
+                        $('.tablestest').click();
+                    }
+                }
+            });
         }
     });
 
@@ -254,7 +274,7 @@ $(document).ready(function () {
     });
 
     $('.commentbtnlogin').click(function () {
-        alert('Please login to post your review')
+        swal("Login required!", "Please login to post your review!");
     });
 
     $('body').on('click', '.commentbtn', function () {
@@ -302,6 +322,7 @@ $(document).ready(function () {
                     $('.commentbtn').show();
                     $('.renderdata').html('');
                     $('.renderdata').append(response);
+                    swal("Good job!", "Your review is Posted!", "success");
                 }
             });
         }
@@ -309,49 +330,121 @@ $(document).ready(function () {
 
     $('body').on('click', '.deleteUser', function () {
         var id = $(this).next('input').val();
-        if (confirm("Are you sure you want to delete?")) {
-            var hidetr = $(this).parents('tr');
-            $.ajax({
-                url: "/admin/deleteuser",
-                data: { 'id': id },
-                type: "JSON",
-                method: "get",
-                success: function (response) {
-                    var data = JSON.parse(response);
-                    console.log(data);
-                    var status = data['status'];
-                    if (status == '1') {
-                        hidetr.hide();
-                    } else {
-                        alert('delete failure')
-                    }
+
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this imaginary file!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    var hidetr = $(this).parents('tr');
+                    $.ajax({
+                        url: "/admin/deleteuser",
+                        data: { 'id': id },
+                        type: "JSON",
+                        method: "get",
+                        success: function (response) {
+                            var data = JSON.parse(response);
+                            var status = data['status'];
+                            if (status == '1') {
+                                hidetr.hide();
+                                swal("Poof! Your imaginary file has been deleted!", {
+                                    icon: "success",
+                                });
+                            } else {
+                                swal("Your imaginary file is safe!");
+                            }
+                        }
+                    });
                 }
             });
-        }
+
+        // if (confirm("Are you sure you want to delete?")) {
+        //     var hidetr = $(this).parents('tr');
+        //     $.ajax({
+        //         url: "/admin/deleteuser",
+        //         data: { 'id': id },
+        //         type: "JSON",
+        //         method: "get",
+        //         success: function (response) {
+        //             var data = JSON.parse(response);
+        //             var status = data['status'];
+        //             if (status == '1') {
+        //                 hidetr.hide();
+        //                 swal({
+        //                     title: "Deleted!",
+        //                     text: "User deleted successfully!",
+        //                     icon: "success",
+        //                 });
+        //             } else {
+        //                 alert('delete failure')
+        //             }
+        //         }
+        //     });
+        // }
         return false;
     });
 
     $('body').on('click', '.deleteItem', function () {
         var id = $(this).next('input').val();
-        if (confirm("Are you sure you want to delete?")) {
-            var hidetr = $(this).parents('tr');
-            $.ajax({
-                url: "/admin/deletecar",
-                data: { 'id': id },
-                type: "JSON",
-                method: "get",
-                success: function (response) {
-                    var data = JSON.parse(response);
-                    console.log(data);
-                    var status = data['status'];
-                    if (status == '1') {
-                        hidetr.hide();
-                    } else {
-                        alert('failure')
-                    }
+
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this imaginary file!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    var hidetr = $(this).parents('tr');
+                    $.ajax({
+                        url: "/admin/deletecar",
+                        data: { 'id': id },
+                        type: "JSON",
+                        method: "get",
+                        success: function (response) {
+                            var data = JSON.parse(response);
+                            var status = data['status'];
+                            if (status == '1') {
+                                hidetr.hide();
+                                swal("Poof! Your imaginary file has been deleted!", {
+                                    icon: "success",
+                                });
+                            } else {
+                                swal("Your imaginary file is safe!");
+                            }
+                        }
+                    });
                 }
             });
-        }
+
+        // if (confirm("Are you sure you want to delete?")) {
+        //     var hidetr = $(this).parents('tr');
+        //     $.ajax({
+        //         url: "/admin/deletecar",
+        //         data: { 'id': id },
+        //         type: "JSON",
+        //         method: "get",
+        //         success: function (response) {
+        //             var data = JSON.parse(response);
+        //             var status = data['status'];
+        //             if (status == '1') {
+        //                 hidetr.hide();
+        //                 swal({
+        //                     title: "Deleted!",
+        //                     text: "User deleted successfully!",
+        //                     icon: "success",
+        //                 });
+        //             } else {
+        //                 alert('failure')
+        //             }
+        //         }
+        //     });
+        // }
         return false;
     });
 

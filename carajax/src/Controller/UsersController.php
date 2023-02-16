@@ -117,7 +117,7 @@ class UsersController extends AppController
             $query = $this->Cars->find('all')
                 ->where(['Or' => ['company like' => '%' . $key . '%', 'brand like' => '%' . $key . '%', 'model like' => '%' . $key . '%', 'make like' => '%' . $key . '%', 'color like' => '%' . $key . '%']]);
         } else {
-            $query = $this->Cars->find('all')->where(['status' => 1]);
+            $query = $this->Cars->find('all')->where(['status' => 1, 'car_delete' => 1]);
         }
         $cars = $this->paginate($query->order(['id' => 'desc']));
         $this->set(compact('cars'));
