@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Feb 16, 2023 at 12:59 PM
+-- Generation Time: Feb 17, 2023 at 03:54 PM
 -- Server version: 8.0.32-0ubuntu0.20.04.2
 -- PHP Version: 7.4.3-4ubuntu2.17
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `car`
+-- Database: `carcategory`
 --
 
 -- --------------------------------------------------------
@@ -55,6 +55,9 @@ INSERT INTO `brands` (`id`, `user_id`, `name`, `description`, `status`, `created
 
 CREATE TABLE `cars` (
   `id` int NOT NULL,
+  `user_id` int DEFAULT NULL,
+  `cat_id` int NOT NULL,
+  `user_name` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `company` varchar(100) NOT NULL,
   `brand` varchar(100) NOT NULL,
   `model` varchar(100) NOT NULL,
@@ -63,31 +66,47 @@ CREATE TABLE `cars` (
   `description` varchar(250) NOT NULL,
   `image` varchar(250) NOT NULL,
   `status` int NOT NULL DEFAULT '1',
-  `car_delete` int NOT NULL DEFAULT '1'
+  `car_delete` int NOT NULL DEFAULT '1',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `cars`
 --
 
-INSERT INTO `cars` (`id`, `company`, `brand`, `model`, `make`, `color`, `description`, `image`, `status`, `car_delete`) VALUES
-(1, 'Mahindra', 'Thar', '4x4', 2023, 'Red', 'This is 4x4 Mahindra thar', 'red_thar.jpg', 1, 1),
-(2, 'Toyoto', 'Fortuner', '4x4', 2018, 'White', 'This is white fortuner.', 'white_fortuner.jpeg', 1, 1),
-(4, 'Mahindra', 'Thar', '4x2', 2021, 'Black', 'This is 4x2 black thar', 'black_thar.jpeg', 1, 1),
-(10, 'Maruti Suzuki', 'Alto', '4x2', 2019, 'Red', 'ds  rg tg tr t', 'front-left-side-47.jpg', 1, 1),
-(12, 'Toyoto', 'Fortuner', '4x4', 2023, 'White', 'fdg gf d gdf', 'white_fortuner.jpeg', 1, 1),
-(13, 'Maruti', 'Alto', '4x4', 2018, 'Red', 'vbjhhhkjuioio', 'front-left-side-47.jpg', 1, 1),
-(20, 'Mahindra', 'Thar', '4x4', 2017, 'Black', 'dyh gh  yhyy ', 'front-left-side-47.jpg', 0, 1),
-(21, 'Mahindra', 'Thar', '4x4', 2017, 'Black', 'dyh gh  yhyy ', 'front-left-side-47.jpg', 1, 0),
-(22, 'Mahindra', 'Thar', '4x2', 2018, 'Black', 'gfhgh hgjhjjh', 'download.jpg', 1, 1),
-(23, 'Mahindra', 'Thar', '4x2', 2018, 'Black', 'gfhgh hgjhjjh', 'download.jpg', 0, 0),
-(24, 'Maruti Suzuki', 'Fortuner', '4x2', 2018, 'White', 'yuyr uyu tyu yuyu', 'download.png', 0, 0),
-(25, 'Mahindra', 'Alto', '4x4', 2018, 'Black', 'hgjfhjhjhj hfjh hj', 'download.jpeg', 1, 0),
-(26, 'Maruti', 'Thar', '4x4', 2018, 'Black', 'jhhgjhgjhhjg', 'download.jpeg', 1, 0),
-(27, 'Maruti', 'Fortuner', '4x2', 2018, 'Black', 'uytuyuuyuryu', 'download.jpg', 0, 1),
-(28, 'Mahindra', 'Thar', '4x2', 2019, 'Red', 'jhgjhgjj hgjhgjj', 'download.jpeg', 0, 1),
-(29, 'Maruti', 'Thar', '4x2', 2016, 'Red', 'ytuytu yuytuyu', 'download.jpg', 1, 0),
-(30, 'Maruti', 'Thar', '4x2', 2018, 'Black', 'uyry utyuyuytuy', 'download.jpg', 1, 0);
+INSERT INTO `cars` (`id`, `user_id`, `cat_id`, `user_name`, `company`, `brand`, `model`, `make`, `color`, `description`, `image`, `status`, `car_delete`, `created_at`) VALUES
+(1, 1, 1, '', 'Mahindra', 'Thar', '4x4', 2023, 'Red', 'This is 4x4 Mahindra thar', 'red_thar.jpg', 1, 1, '2023-02-17 14:22:51'),
+(2, 1, 1, '', 'Toyoto', 'Fortuner', '4x4', 2018, 'White', 'This is white fortuner.', 'white_fortuner.jpeg', 0, 1, '2023-02-17 14:22:51'),
+(4, 2, 2, '', 'Mahindra', 'Thar', '4x2', 2021, 'Black', 'This is 4x2 black thar', 'black_thar.jpeg', 1, 1, '2023-02-17 14:22:51'),
+(10, 2, 1, '', 'Maruti Suzuki', 'Alto', '4x2', 2019, 'Red', 'ds  rg tg tr t', 'front-left-side-47.jpg', 1, 1, '2023-02-17 14:22:51'),
+(31, 2, 2, NULL, 'Maruti Suzuki', 'Alto', '4x2', 2019, 'Red', 'ds  rg tg tr tuuuuu', 'download.jpeg', 1, 0, '2023-02-17 09:45:47'),
+(32, 2, 1, 'Kunal Singh', 'Maruti Suzuki', 'Alto', '4x2', 2019, 'Red', 'ds  rg tg tr t', 'download.jpeg', 1, 0, '2023-02-17 09:47:28'),
+(33, 1, 2, 'Rahul Kumar', 'Maruti Suzuki', 'Alto', '4x2', 2019, 'Red', 'ds  rg tg tr t', 'download.jpg', 1, 0, '2023-02-17 09:50:32'),
+(34, 1, 2, 'Rahul Kumar', 'Toyoto', 'Fortuner', '4x4', 2018, 'Red', 'This is white fortuner.', 'white_fortuner.jpeg', 1, 1, '2023-02-17 10:15:02'),
+(35, 1, 1, 'Rahul Kumar', 'Maruti Suzuki', 'Alto', '4x2', 2019, 'Red', 'ds  rg tg tr t', 'download.jpeg', 1, 0, '2023-02-17 10:15:26');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cats`
+--
+
+CREATE TABLE `cats` (
+  `id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `status` int NOT NULL DEFAULT '1',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `cats`
+--
+
+INSERT INTO `cats` (`id`, `user_id`, `name`, `status`, `created_at`) VALUES
+(1, 1, 'Sports Car', 1, '2023-02-17 12:00:07'),
+(2, 1, 'SUV', 1, '2023-02-17 12:00:07'),
+(3, 1, 'Heavy Vehicles', 1, '2023-02-17 12:00:07');
 
 -- --------------------------------------------------------
 
@@ -184,6 +203,12 @@ ALTER TABLE `cars`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `cats`
+--
+ALTER TABLE `cats`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `ratings`
 --
 ALTER TABLE `ratings`
@@ -210,7 +235,13 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT for table `cars`
 --
 ALTER TABLE `cars`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+
+--
+-- AUTO_INCREMENT for table `cats`
+--
+ALTER TABLE `cats`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `ratings`
