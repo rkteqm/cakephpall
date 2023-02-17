@@ -560,7 +560,7 @@ $(document).ready(function () {
     // add modal
     $('#createNewCar').click(function () {
         $('#carform').trigger("reset");
-        $('#modelHeading').html("Create New Car");
+        $('#modelHeading').html("Add New Car");
         $('#ajaxModel').modal('show');
         return false;
     });
@@ -574,7 +574,7 @@ $(document).ready(function () {
             method: "get",
             success: function (response) {
                 car = $.parseJSON(response);
-                $('#modelHeading').html("Edit Product");
+                $('#modelHeadingEdit').html("Edit Car");
                 $('#ajaxModelEdit').modal('show');
                 $('#iddd').val(car['id']);
                 $('#image').val(car['image']);

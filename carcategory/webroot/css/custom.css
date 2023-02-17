@@ -1,0 +1,44 @@
+.signupbimage {
+    background-image: url('/img/illustrations/illustration-signup.jpg');
+    /* background-image: url('/img/loader.gif'); */
+    background-size: cover;
+}
+
+.signinbimage {
+    background-image: url('/img/illustrations/illustration-signup.jpg');
+    background-size: cover;
+}
+
+.error,
+.error-message {
+    color: red;
+}
+
+.success {
+    color: seagreen;
+}
+
+.carheight {
+    height: 250px;
+    width: 100%;
+}
+
+.comment {
+    margin-left: 15px;
+    border: 2px solid cyan;
+    border-radius: 15px;
+    width: 80%;
+}
+
+.commentshow {
+    display: none;
+}
+
+.fa-star {
+    color: #e91e63;
+    cursor: pointer;
+}
+
+#userl {
+    display: none !important;
+}
