@@ -38,8 +38,63 @@
                                 <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Model:</strong> &nbsp; <?= $car->model ?></li>
                                 <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Make:</strong> &nbsp; <?= $car->make ?></li>
                                 <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Color:</strong> &nbsp; <?= $car->color ?></li>
+                                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Price Range:</strong> &nbsp; Rs.9.99 - 16.49 Lakh*in Panchkula</li>
                             </ul>
                         </div>
+                        <?php if ($auth) { ?>
+                            <input type="hidden" value="<?= $user->id ?>">
+                            <button class="btn btn-primary btn-block stripeCharge" data-amount="100">Buy Now</button>
+                            <!-- <button class="btn btn-primary btn-block" onclick="pay(990000)">Buy Now</button> -->
+                            <input type="hidden" value="<?= $car->id ?>">
+                        <?php } else { ?>
+                            <button class="buybtnlogin btn btn-primary btn-block">Buy Now</button>
+                        <?php } ?>
+                        <script src="https://checkout.stripe.com/checkout.js"></script>
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                                $('body').on('click', '.stripeCharge', function() {
+                                    var amount = $(this).data('amount');
+                                    var userId = $(this).prev('input').val();
+                                    var carId = $(this).next('input').val();
+                                    var handler = StripeCheckout.configure({
+                                        key: 'pk_test_5f6jfFP2ZV5U9TXQYG0vtqFJ00eFVWNoRX', // your publisher key id
+                                        locale: 'auto',
+                                        token: function(token) {
+                                            // You can access the token ID with `token.id`.
+                                            // Get the token ID to your server-side code for use.
+                                            // console.log('Token Created!!');
+                                            // console.log(token)
+                                            $('#token_response').html(JSON.stringify(token));
+                                            $.ajax({
+                                                headers: {
+                                                    'X-CSRF-TOKEN': csrfToken
+                                                },
+                                                url: "/users/payment",
+                                                method: 'post',
+                                                data: {
+                                                    tokenId: token.id,
+                                                    amount: amount,
+                                                    userId: userId,
+                                                    carId: carId,
+                                                },
+                                                dataType: "json",
+                                                success: function(response) {
+                                                    // console.log(response.data);
+                                                    if (response.data['status'] == 'succeeded') {
+                                                        swal("Good job!", "Your order has been placed successfully!", "success");
+                                                    }
+                                                }
+                                            })
+                                        }
+                                    });
+                                    handler.open({
+                                        name: 'Demo Site',
+                                        description: '2 widgets',
+                                        amount: amount * 100
+                                    });
+                                });
+                            });
+                        </script>
                     </div>
                 </div>
                 <div class="col-12 col-xl-4">

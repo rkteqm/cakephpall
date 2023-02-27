@@ -26,6 +26,8 @@ class UsersController extends AppController
         $this->loadComponent('Flash');
         $this->loadComponent('Authentication.Authentication');
         $this->Model = $this->loadModel('Cars');
+        $this->Model = $this->loadModel('Cats');
+        $this->Model = $this->loadModel('Transactions');
         $this->Model = $this->loadModel('Ratings');
         if ($this->Authentication->getIdentity()) {
             $auth = true;
@@ -175,5 +177,57 @@ class UsersController extends AppController
             $this->Authentication->logout();
             return $this->redirect(['controller' => 'Users', 'action' => 'signin']);
         }
+    }
+
+    public function payment()
+    {
+        if ($_POST['tokenId']) {
+            require_once('vendor/autoload.php');
+            //stripe secret key or revoke key
+            $stripeSecret = 'sk_test_j5k0976GOLSOtiRzbDLpKqat00og5iM3cY';
+            // See your keys here: https://dashboard.stripe.com/account/apikeys
+            \Stripe\Stripe::setApiKey($stripeSecret);
+            // Get the payment token ID submitted by the form:
+            $token = $_POST['tokenId'];
+            // Charge the user's card:
+            $charge = \Stripe\Charge::create(array(
+                "amount" => $_POST['amount'],
+                "currency" => "usd",
+                "description" => "stripe integration in PHP with source code - Rahul_Kumar.com",
+                "source" => $token,
+            ));
+            // after successfull payment, you can store payment related information into your database
+            $data = array('success' => true, 'data' => $charge);
+            $my = array();
+            $my['currency'] = $data['data']['currency'];
+            $my['amount'] = $data['data']['amount'];
+            $my['amount_captured'] = $data['data']['amount_captured'];
+            $my['status'] = $data['data']['status'];
+            $my['car_id'] = $_POST['carId'];
+            $my['user_id'] = $_POST['userId'];
+            $my['transaction_id'] = $data['data']['id'];
+            $transaction = $this->Transactions->newEmptyEntity();
+            $transaction = $this->Transactions->patchEntity($transaction, $my);
+            if ($this->Transactions->save($transaction)) {
+                echo json_encode($data);
+                exit;
+            }
+            echo json_encode($data);
+            exit;
+        }
+    }
+
+    public function orders($id)
+    {
+        $transactions = $this->paginate($this->Transactions->find('all')->where(['user_id' => $id])->order(['Transactions.id' => 'desc']));
+        // $cars = $this->paginate($this->Cars->find('all')->order(['Cars.id' => 'desc']));
+
+        // $cars = $this->Cars->find('all');
+        $cars = $this->Transactions->Cars->find('list', ['limit' => 200])->all()->toArray();
+
+        // echo '<pre>';
+        // print_r($cars);
+        // die;
+        $this->set(compact('transactions', 'cars'));
     }
 }

@@ -42,9 +42,14 @@ class CarsTable extends Table
 
         $this->setTable('cars');
         $this->setDisplayField('id');
+        $this->setDisplayField('company');
         $this->setPrimaryKey('id');
 
         $this->hasMany('Ratings', [
+            'foreignKey' => 'car_id',
+        ]);
+
+        $this->hasMany('Transaction', [
             'foreignKey' => 'car_id',
         ]);
 

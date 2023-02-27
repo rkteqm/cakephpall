@@ -30,6 +30,7 @@ class AdminController extends AppController
         $this->Model = $this->loadModel('Cats');
         $this->Model = $this->loadModel('Brands');
         $this->Model = $this->loadModel('Ratings');
+        $this->Model = $this->loadModel('Transactions');
         if ($this->Authentication->getIdentity()) {
             $auth = true;
             $user = $this->Authentication->getIdentity();
@@ -37,6 +38,7 @@ class AdminController extends AppController
             if ($user->role == 1) {
                 $this->redirect(['controller' => 'Users', 'action' => 'signin']);
             }
+            // $transactions = $this->paginate($this->Transactions->find('all')->where(['user_id' => 4])->order(['Transactions.id' => 'desc']));
             $this->set(compact('user', 'usercar'));
         } else {
             $auth = false;
@@ -254,23 +256,62 @@ class AdminController extends AppController
     {
     }
 
-    public function profile()
-    {
-    }
+    // public function profile()
+    // {
+    // }
 
     public function tables()
     {
-
-        $category = $this->Cars->Cats->find('list', ['limit' => 200])->all();
-        $users = $this->paginate($this->Users->find('all')->where(['role' => 1, 'user_delete' => 1])->order(['id' => 'desc']));
-        $cats = $this->paginate($this->Cats->find('all')->contain('Cars')->order(['id' => 'desc']));
         $cars = $this->paginate($this->Cars->find('all')->contain('Ratings')->where(['car_delete' => 1])->order(['Cars.id' => 'desc']));
         $brands = $this->Users->Brands->find('list', ['limit' => 200])->all()->toArray();
-        $category = $this->Users->Cats->find('list', ['limit' => 200])->all()->toArray();
+        $categ = $this->Users->Cats->find('list', ['limit' => 200])->all()->toArray();
+        $category = $this->Users->Cats->find('list', ['limit' => 200])->where(['status' => 1])->all()->toArray();
+        $car = $this->Cars->newEmptyEntity();
         // echo '<pre>';print_r($category);
-        // echo '<hr>';
-        // echo '<pre>';print_r($brands);die;
-        $this->set(compact('users', 'cars', 'cats', 'category', 'brands', 'category'));
+        // die;
+        $this->set(compact('cars', 'brands', 'categ', 'category', 'car'));
+    }
+
+    public function carstable()
+    {
+        $cars = $this->paginate($this->Cars->find('all')->contain('Ratings')->where(['car_delete' => 1])->order(['Cars.id' => 'desc']));
+        $category = $this->Users->Cats->find('list', ['limit' => 200])->all()->toArray();
+        $this->set(compact('cars', 'category'));
+        if ($this->request->is('ajax') && $_REQUEST['status'] == true) {
+            $this->render('/element/flash/carstable');
+        }
+    }
+
+    public function carscategory()
+    {
+        $cars = $this->paginate($this->Cars->find('all')->contain('Ratings')->where(['car_delete' => 1])->order(['Cars.id' => 'desc']));
+        $brands = $this->Users->Brands->find('list', ['limit' => 200])->all()->toArray();
+        $category = $this->Users->Cats->find('list', ['limit' => 200])->where(['status' => 1])->all()->toArray();
+        $car = $this->Cars->newEmptyEntity();
+        $cats = $this->paginate($this->Cats->find('all')->contain(['Cars' => function ($q) {
+            return $q->where(['Cars.car_delete' => 1]);
+        }])->order(['id' => 'desc']));
+        $this->set(compact('cats', 'cars', 'brands', 'category', 'car'));
+        // if ($this->request->is('ajax') && $_REQUEST['status'] == true) {
+        //     $this->render('/element/flash/carscategory');
+        // }
+    }
+
+    public function userstable()
+    {
+        $cars = $this->paginate($this->Cars->find('all')->contain('Ratings')->where(['car_delete' => 1])->order(['Cars.id' => 'desc']));
+        $users = $this->paginate($this->Users->find('all')->where(['role' => 1, 'user_delete' => 1])->order(['id' => 'desc']));
+        $brands = $this->Users->Brands->find('list', ['limit' => 200])->all()->toArray();
+        $category = $this->Users->Cats->find('list', ['limit' => 200])->where(['status' => 1])->all()->toArray();
+        $car = $this->Cars->newEmptyEntity();
+        $this->set(compact('users', 'cars', 'brands', 'category', 'car'));
+    }
+
+    public function profile()
+    {
+        if ($this->request->is('ajax') && $_REQUEST['status'] == true) {
+            $this->render('/element/flash/profile');
+        }
     }
 
     public function status($id = null, $status = null)
@@ -295,10 +336,19 @@ class AdminController extends AppController
         $id = $_REQUEST['id'];
         $status = $_REQUEST['status'];
         $cat = $this->Cats->get($id);
+        $cars = $this->Cars->find('all')->where(['cat_id' => $id]);
         if ($status == 1) {
             $cat->status = 0;
+            foreach ($cars as $car) {
+                $car->status = 0;
+                $this->Cars->save($car);
+            }
         } else {
             $cat->status = 1;
+            foreach ($cars as $car) {
+                $car->status = 1;
+                $this->Cars->save($car);
+            }
         }
         if ($this->Cats->save($cat)) {
             exit;

@@ -10,7 +10,7 @@
 
             <!-- Tables -->
             <div id="tablecontent">
-                <?php echo $this->element('flash/carstable') ?>
+                <?php echo $this->element('flash/userstable') ?>
             </div>
             <!-- End End Tables -->
 

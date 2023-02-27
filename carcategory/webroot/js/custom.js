@@ -155,6 +155,7 @@ $(document).ready(function () {
                         $('#carform').trigger("reset");
                         $('#ajaxModelEdit').modal('hide');
                         swal("Good job!", "The car has been saved!", "success");
+                        // $('#loadcontent').load('/admin/tables/ #loadcontent');
                     }
                 }
             });
@@ -164,6 +165,9 @@ $(document).ready(function () {
     $("#carform").validate({
         rules: {
             image: {
+                required: true,
+            },
+            cat_id: {
                 required: true,
             },
             brand: {
@@ -191,6 +195,9 @@ $(document).ready(function () {
         messages: {
             image: {
                 required: " Please select your car image",
+            },
+            cat_id: {
+                required: " Please select your car category",
             },
             brand: {
                 required: " Please select your car brand",
@@ -298,33 +305,71 @@ $(document).ready(function () {
     });
 
     $('body').on('click', '.badge-smc', function () {
-        var id = $(this).prev('input').val();
+        var id = $(this).data('id');
+        var activecars = $(this).prev('input').val();
         var status = $(this).next('input').val();
+        var inactivecars = $('.inactivecars').val();
         if (status == 1) {
-            $(this).html('Inactive')
-            $(this).removeClass('bg-gradient-success')
-            $(this).addClass('bg-gradient-secondary')
-            $(this).next('input').val('0');
+            message = "Once disable, There are " + activecars + " active cars related to this category will also be disable!";
         } else {
-            $(this).html('Active')
-            $(this).removeClass('bg-gradient-secondary')
-            $(this).addClass('bg-gradient-success')
-            $(this).next('input').val('1');
+            message = "Once enable, There are " + activecars + " inactive cars related to this category will also be enable!";
         }
-        $.ajax({
-            url: "/admin/statuscat",
-            type: "JSON",
-            method: "GET",
-            data: {
-                'id': id,
-                'status': status,
-            },
-            success: function (response) { }
-        });
+        swal({
+            title: "Are you sure?",
+            text: message,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    if (status == 1) {
+                        $(this).html('Inactive');
+                        $(this).removeClass('bg-gradient-success');
+                        $(this).addClass('bg-gradient-secondary');
+                        $(this).next('input').val('0');
+                    } else {
+                        $(this).html('Active');
+                        $(this).removeClass('bg-gradient-secondary');
+                        $(this).addClass('bg-gradient-success');
+                        $(this).next('input').val('1');
+                    }
+                    $.ajax({
+                        url: "/admin/statuscat",
+                        type: "JSON",
+                        method: "GET",
+                        data: {
+                            'id': id,
+                            'status': status,
+                        },
+                        success: function (response) {
+                        }
+                    });
+                }
+            });
+        return false;
+
+        // } else {
+
+        // }
+        // $.ajax({
+        //     url: "/admin/statuscat",
+        //     type: "JSON",
+        //     method: "GET",
+        //     data: {
+        //         'id': id,
+        //         'status': status,
+        //     },
+        //     success: function (response) { }
+        // });
     });
 
     $('.commentbtnlogin').click(function () {
         swal("Login required!", "Please login to post your review!");
+    });
+
+    $('.buybtnlogin').click(function () {
+        swal("Login required!", "Please login to continue!");
     });
 
     $('body').on('click', '.commentbtn', function () {
@@ -411,30 +456,6 @@ $(document).ready(function () {
                     });
                 }
             });
-
-        // if (confirm("Are you sure you want to delete?")) {
-        //     var hidetr = $(this).parents('tr');
-        //     $.ajax({
-        //         url: "/admin/deleteuser",
-        //         data: { 'id': id },
-        //         type: "JSON",
-        //         method: "get",
-        //         success: function (response) {
-        //             var data = JSON.parse(response);
-        //             var status = data['status'];
-        //             if (status == '1') {
-        //                 hidetr.hide();
-        //                 swal({
-        //                     title: "Deleted!",
-        //                     text: "User deleted successfully!",
-        //                     icon: "success",
-        //                 });
-        //             } else {
-        //                 alert('delete failure')
-        //             }
-        //         }
-        //     });
-        // }
         return false;
     });
 
@@ -583,6 +604,65 @@ $(document).ready(function () {
         return false;
     });
 
+    $('body').on('click', '.carstable', function () {
+        $.ajax({
+            url: "/admin/carstable",
+            data: { 'status': true },
+            type: "JSON",
+            method: "get",
+            success: function (response) {
+                $('#tablecontent').html('');
+                $('#tablecontent').append(response);
+            }
+        });
+        return false;
+    });
+
+    $('body').on('click', '.carscategory', function () {
+        $.ajax({
+            url: "/admin/carscategory",
+            data: {
+                'status': true,
+                'id': id,
+            },
+            type: "JSON",
+            method: "get",
+            success: function (response) {
+                $('#tablecontent').html('');
+                $('#tablecontent').append(response);
+            }
+        });
+        return false;
+    });
+
+    $('body').on('click', '.userstable', function () {
+        $.ajax({
+            url: "/admin/userstable",
+            data: { 'status': true },
+            type: "JSON",
+            method: "get",
+            success: function (response) {
+                $('#tablecontent').html('');
+                $('#tablecontent').append(response);
+            }
+        });
+        return false;
+    });
+
+    $('body').on('click', '.profile', function () {
+        $.ajax({
+            url: "/admin/profile",
+            data: { 'status': true },
+            type: "JSON",
+            method: "get",
+            success: function (response) {
+                $('.tablecontent').html('');
+                $('.tablecontent').append(response);
+            }
+        });
+        return false;
+    });
+
     // add modal
     $('#createNewCar').click(function () {
         $('#carform').trigger("reset");
@@ -593,6 +673,9 @@ $(document).ready(function () {
 
     $('body').on('click', '.editCar', function () {
         var car_id = $(this).data('id');
+        var load = $(this).parents('tr');
+        // load.addClass('loadcontent');
+        // load.attr('id', 'loadcontent');
         $.ajax({
             url: "/admin/edit",
             data: { 'id': car_id },
@@ -606,7 +689,7 @@ $(document).ready(function () {
                 $('#image').val(car['image']);
                 $('#imagedd').val(car['image']);
                 var image = car['image'];
-                document.querySelector('#showimg').setAttribute('src', '/img/'+image);
+                document.querySelector('#showimg').setAttribute('src', '/img/' + image);
                 $('#company').val(car['company']);
                 $('#brand').val(car['brand']);
                 $('#model').val(car['model']);

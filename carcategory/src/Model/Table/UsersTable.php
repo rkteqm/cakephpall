@@ -44,6 +44,10 @@ class UsersTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
+        $this->hasMany('Transaction', [
+            'foreignKey' => 'user_id',
+        ]);
+
         $this->hasMany('Ratings', [
             'foreignKey' => 'user_id',
         ]);
