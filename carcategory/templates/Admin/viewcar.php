@@ -19,9 +19,6 @@
                 <li class="nav-item">
                     <?= $this->Html->link('<div class="text-white text-center me-2 d-flex align-items-center justify-content-center"><i class="fa-solid fa-pen-to-square opacity-10"></i></div><span class="nav-link-text ms-1">View Car</span>' . __(''), ['controller' => 'Admin', 'action' => 'viewcar', $car->id], ['escape' => false, 'title' => __('View Car'), 'class' => 'nav-link text-white active bg-gradient-primary']) ?>
                 </li>
-                <li class="nav-item">
-                    <?= $this->Html->link('<div class="text-white text-center me-2 d-flex align-items-center justify-content-center"><i class="fa-solid fa-upload opacity-10"></i></div><span class="nav-link-text ms-1">Add Car</span>' . __(''), ['controller' => 'Admin', 'action' => 'addcar'], ['escape' => false, 'title' => __('Add Car'), 'class' => 'nav-link text-white']) ?>
-                </li>
                 <li class="nav-item mt-3">
                     <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
                 </li>

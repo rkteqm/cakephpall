@@ -64,7 +64,7 @@
                                             // Get the token ID to your server-side code for use.
                                             // console.log('Token Created!!');
                                             // console.log(token)
-                                            $('#token_response').html(JSON.stringify(token));
+                                            // $('#token_response').html(JSON.stringify(token));
                                             $.ajax({
                                                 headers: {
                                                     'X-CSRF-TOKEN': csrfToken

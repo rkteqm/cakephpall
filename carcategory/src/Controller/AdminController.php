@@ -38,8 +38,10 @@ class AdminController extends AppController
             if ($user->role == 1) {
                 $this->redirect(['controller' => 'Users', 'action' => 'signin']);
             }
-            // $transactions = $this->paginate($this->Transactions->find('all')->where(['user_id' => 4])->order(['Transactions.id' => 'desc']));
-            $this->set(compact('user', 'usercar'));
+            $alert = $this->paginate($this->Transactions->find('all')->order(['Transactions.id' => 'desc']));
+            $alertuser = $this->Users->find('list', ['limit' => 200])->all()->toArray();
+            // echo'<pre>';print_r($cars);die;
+            $this->set(compact('user', 'usercar', 'alert', 'alertuser'));
         } else {
             $auth = false;
         }
