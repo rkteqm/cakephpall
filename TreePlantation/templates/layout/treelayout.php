@@ -16,13 +16,16 @@
 
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <?= $this->Html->css(['style', 'classy-nav', 'bootstrap.min', 'animate', 'elegant-icon', 'font-awesome.min', 'owl.carousel.min', 'magnific-popup']) ?>
+    <!-- <?= $this->Html->css(['style', 'classy-nav', 'bootstrap.min', 'animate', 'elegant-icon', 'font-awesome.min', 'owl.carousel.min', 'magnific-popup']) ?>
     <?= $this->Html->script(['active', 'bootstrap/bootstrap.min', 'bootstrap/popper.min', 'jquery/jquery-2.2.4.min', 'plugins/plugins']) ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
-    <?= $this->fetch('script') ?>
+    <?= $this->fetch('script') ?> -->
 
 </head>
 

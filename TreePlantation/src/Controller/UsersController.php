@@ -39,7 +39,11 @@ class UsersController extends AppController
         // $this->set(compact('auth'));
     }
 
-    public function index()
+    public function register()
+    {
+    }
+
+    public function login()
     {
     }
 }
