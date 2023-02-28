@@ -4,19 +4,25 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
-use Cake\ORM\Entity;
 use Authentication\PasswordHasher\DefaultPasswordHasher;
+use Cake\ORM\Entity;
 
 /**
  * User Entity
  *
  * @property int $id
- * @property string $name
+ * @property string $first_name
+ * @property string $last_name
  * @property string $email
  * @property string $password
- * @property int $role
+ * @property string|null $promo
+ * @property int $subscribe
+ * @property \Cake\I18n\FrozenTime $created_at
  *
- * @property \App\Model\Entity\Rating[] $ratings
+ * @property \App\Model\Entity\Detail $detail
+ * @property \App\Model\Entity\Company $company
+ * @property \App\Model\Entity\Credit[] $credits
+ * @property \App\Model\Entity\Plant[] $plants
  */
 class User extends Entity
 {
@@ -35,12 +41,12 @@ class User extends Entity
         'email' => true,
         'password' => true,
         'promo' => true,
-        'subscibe' => true,
+        'subscribe' => true,
         'created_at' => true,
-        'details' => true,
+        'detail' => true,
         'company' => true,
-        'plants' => true,
         'credits' => true,
+        'plants' => true,
     ];
 
     /**
@@ -52,10 +58,10 @@ class User extends Entity
         'password',
     ];
 
-    // protected function _setPassword(string $password): ?string
-    // {
-    //     if (strlen($password) > 0) {
-    //         return (new DefaultPasswordHasher())->hash($password);
-    //     }
-    // }
+    protected function _setPassword(string $password): ?string
+    {
+        if (strlen($password) > 0) {
+            return (new DefaultPasswordHasher())->hash($password);
+        }
+    }
 }

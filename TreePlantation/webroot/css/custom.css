@@ -5,3 +5,12 @@
 .error-message{
     color: red;
 }
+
+ul li a{
+    text-decoration: none;
+}
+
+/* .collapse{
+    color: white;
+    margin-left: 30px;
+} */

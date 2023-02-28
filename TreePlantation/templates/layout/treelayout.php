@@ -9,7 +9,14 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title -->
-    <title>Alazea - Gardening &amp; Landscaping HTML Template</title>
+    <?php
+    $cakeDescription = 'Tree Plantation';
+
+    ?>
+     <title>
+        <?= $cakeDescription ?>:
+        <?= $this->fetch('title') ?>
+    </title>
 
     <!-- Favicon -->
     <link rel="icon" href="img/core-img/favicon.ico">

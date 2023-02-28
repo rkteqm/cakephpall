@@ -3,7 +3,7 @@
     <!-- Background image -->
     <div class="p-5 bg-image" style="
         background-image: url('https://mdbootstrap.com/img/new/textures/full/171.jpg');
-        height: 150px;
+        height: 290px;
         "></div>
     <!-- Background image -->
 
@@ -66,9 +66,9 @@
                         <div class="col-md-6 mb-4">
                             <div class="form-outline">
                                 <label class="form-label" for="form3Example1">Promo Code (Optional)</label>
-                                <?= $this->Form->error('code') ?>
-                                <label id="code-error" class="error" for="code"></label>
-                                <?= $this->Form->input('code', ['required' => 'false', 'placeholder' => 'Enter your Promo Code (Optional)', 'type' => 'text', 'class' => 'form-control']) ?>
+                                <?= $this->Form->error('promo') ?>
+                                <label id="code-error" class="error" for="promo"></label>
+                                <?= $this->Form->input('promo', ['required' => 'false', 'placeholder' => 'Enter your Promo Code (Optional)', 'type' => 'text', 'class' => 'form-control']) ?>
                             </div>
                         </div>
                     </div>
@@ -76,6 +76,7 @@
                     <!-- Checkbox -->
                     <div class="form-check d-flex justify-content-center mb-4">
                         <?= $this->Form->error('terms') ?>
+                        <label id="terms-error" class="error" for="terms"></label>
                         <label class="form-check-label" for="form2Example3">
                         <?= $this->Form->input('terms', ['required' => 'false', 'type' => 'checkbox', 'value' => '1', 'class' => 'form-check-input me-3', 'checked']) ?>
                             I have read and agreed to the <a href="#!" class=""><u>Terms and Conditions</u></a> (Mandatory to check)

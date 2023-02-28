@@ -110,7 +110,7 @@ $(document).ready(function () {
                 headers: {
                     'X-CSRF-TOKEN': csrfToken
                 },
-                url: "/users/signup",
+                url: "/users/register",
                 type: "JSON",
                 method: "POST",
                 data: $(form).serialize(),
@@ -126,4 +126,36 @@ $(document).ready(function () {
 
         }
     });
+
+    $('form').validate({
+        rules: {
+            email: {
+                required: true,
+                email: true
+            },
+            password: {
+                required: true,
+                Uppercase: true,
+                Lowercase: true,
+                Specialcharacter: true,
+                Onedigit: true,
+                maxlength: 18,
+                minlength: 8,
+            }
+        },
+        messages: {
+            email: {
+                required: " Please enter your email",
+            },
+            password: {
+                required: "Please enter your password",
+                minlength: "Password need to be at least 8 characters long",
+                maxlength: "Password need to be atleast  18 characters long",
+            }
+        },
+        submitHandler: function (form) {
+            form.submit();
+        }
+    });
+
 });

@@ -1,5 +1,5 @@
 <!-- Section: Design Block -->
-<section class="background-radial-gradient overflow-hidden" style="height: 90vh">
+<section class="background-radial-gradient overflow-hidden" style="padding-bottom: 15px">
     <style>
         .background-radial-gradient {
             background-color: hsl(218, 41%, 15%);
@@ -60,42 +60,43 @@
             <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
                 <div id="radius-shape-1" class="position-absolute rounded-circle shadow-5-strong"></div>
                 <div id="radius-shape-2" class="position-absolute shadow-5-strong"></div>
-
                 <div class="card bg-glass">
                     <div class="card-body px-4 py-5 px-md-5">
-                        <form>
-                            <div class="d-flex align-items-center mb-3 pb-1">
-                                <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
-                                <span class="h1 fw-bold mb-0">Logo</span>
-                            </div>
+                        <?= $this->Flash->render() ?>
+                        <?= $this->Form->create() ?>
+                        <div class="d-flex align-items-center mb-3 pb-1">
+                            <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
+                            <span class="h1 fw-bold mb-0">Logo</span>
+                        </div>
 
-                            <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
-                            <!-- Email input -->
-                            <div class="form-outline mb-4">
-                                <input type="email" id="form3Example3" class="form-control" />
-                                <label class="form-label" for="form3Example3">Email address</label>
-                            </div>
+                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
+                        <!-- Email input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="form3Example3">Email address</label>
+                            <label id="email-error" class="error" for="email"></label>
+                            <?= $this->Form->input('email', ['required' => 'false', 'label' => false, 'type' => 'email', 'id' => 'email', 'class' => 'form-control']) ?>
+                        </div>
 
-                            <!-- Password input -->
-                            <div class="form-outline mb-4">
-                                <input type="password" id="form3Example4" class="form-control" />
-                                <label class="form-label" for="form3Example4">Password</label>
-                            </div>
+                        <!-- Password input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="form3Example4">Password</label>
+                            <label id="password-error" class="error" for="password"></label>
+                            <?= $this->Form->input('password', ['required' => 'false', 'type' => 'password', 'id' => 'password', 'class' => 'form-control']) ?>
+                        </div>
 
-                            <!-- Checkbox -->
-                            <div class="form-check d-flex mb-4">
-                                <input class="form-check-input me-2" type="checkbox" value="" id="form2Example33" checked />
-                                <label class="form-check-label" for="form2Example33">
-                                    Remember me
-                                </label>
-                            </div>
-                            <div class="pt-1 mb-4">
-                                <?= $this->Html->link(__('Login'), ['controller' => 'Users', 'action' => 'login'], ['class' => 'btn btn-info btn-lg btn-block']) ?>
-                                <?= $this->Html->link(__('Forgot password?'), ['controller' => 'Users', 'action' => 'forgot'], ['class' => 'btn btn-info btn-lg btn-block']) ?>
-                                
-                            </div>
-                            <p>Don't have an account? <?= $this->Html->link(__('Register here'), ['controller' => 'Users', 'action' => 'register']) ?></p>
-                        </form>
+                        <!-- Checkbox -->
+                        <div class="form-check d-flex mb-4">
+                            <input class="form-check-input me-2" type="checkbox" value="" id="form2Example33" checked />
+                            <label class="form-check-label" for="form2Example33">
+                                Remember me
+                            </label>
+                        </div>
+                        <div class="pt-1 mb-4">
+                            <?= $this->Form->submit(__('Login'), ['class' => 'btn btn-info btn-lg btn-block']); ?>
+                        </div>
+                        <?= $this->Html->link(__('Forgot password?'), ['class' => 'btn btn-info btn-lg btn-block']) ?>
+                        <p>Don't have an account? <?= $this->Html->link(__('Register here'), ['controller' => 'Users', 'action' => 'register']) ?></p>
+                        <?= $this->Form->end() ?>
                     </div>
                 </div>
             </div>

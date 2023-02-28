@@ -12,7 +12,10 @@ use Cake\Validation\Validator;
 /**
  * Users Model
  *
- * @property \App\Model\Table\RatingsTable&\Cake\ORM\Association\HasMany $Ratings
+ * @property \App\Model\Table\CompanyTable&\Cake\ORM\Association\HasMany $Company
+ * @property \App\Model\Table\CreditsTable&\Cake\ORM\Association\HasMany $Credits
+ * @property \App\Model\Table\DetailsTable&\Cake\ORM\Association\HasMany $Details
+ * @property \App\Model\Table\PlantsTable&\Cake\ORM\Association\HasMany $Plants
  *
  * @method \App\Model\Entity\User newEmptyEntity()
  * @method \App\Model\Entity\User newEntity(array $data, array $options = [])
@@ -44,18 +47,15 @@ class UsersTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
-        $this->hasOne('Details', [
+        $this->hasMany('Company', [
             'foreignKey' => 'user_id',
         ]);
-
-        $this->hasOne('Company', [
-            'foreignKey' => 'user_id',
-        ]);
-
         $this->hasMany('Credits', [
             'foreignKey' => 'user_id',
         ]);
-
+        $this->hasMany('Details', [
+            'foreignKey' => 'user_id',
+        ]);
         $this->hasMany('Plants', [
             'foreignKey' => 'user_id',
         ]);
@@ -252,12 +252,12 @@ class UsersTable extends Table
             ->boolean('terms')
             ->requirePresence('terms', 'create')
             ->notEmptyString('terms', 'Please accept our terms and conditions');
-            // ->add('terms', [
-            //     'notBlank' => [
-            //         'rule'    => ['notBlank'],
-            //         'message' => 'Please accept our terms and conditions',
-            //     ],
-            // ]);
+        // ->add('terms', [
+        //     'notBlank' => [
+        //         'rule'    => ['notBlank'],
+        //         'message' => 'Please accept our terms and conditions',
+        //     ],
+        // ]);
 
         return $validator;
     }
